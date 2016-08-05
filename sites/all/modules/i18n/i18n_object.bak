@@ -1,0 +1,167 @@
+<?php
+
+/**
+ * @file
+ * Sample AJAX functionality so people can see some of the CTools AJAX
+ * features in use.
+ */
+
+// ---------------------------------------------------------------------------
+// Drupal hooks.
+
+/**
+ *  Implementation of hook_menu()
+ */
+function ctools_ajax_sample_menu() {
+  $items['ctools_ajax_sample'] = array(
+      'title' => 'Chaos Tools AJAX Demo',
+      'page callback' => 'ctools_ajax_sample_page',
+      'access callback' => TRUE,
+      'type' => MENU_NORMAL_ITEM,
+  );
+  $items['ctools_ajax_sample/simple_form'] = array(
+    'title' => 'Simple Form',
+    'page callback' => 'ctools_ajax_simple_form',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  $items['ctools_ajax_sample/%ctools_js/hello'] = array(
+      'title' => 'Hello World',
+      'page callback' => 'ctools_ajax_sample_hello',
+      'page arguments' => array(1),
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+  );
+  $items['ctools_ajax_sample/%ctools_js/tablenix/%'] = array(
+      'title' => 'Hello World',
+      'page callback' => 'ctools_ajax_sample_tablenix',
+      'page arguments' => array(1, 3),
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+  );
+  $items['ctools_ajax_sample/%ctools_js/login'] = array(
+      'title' => 'Login',
+      'page callback' => 'ctools_ajax_sample_login',
+      'page arguments' => array(1),
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+  );
+  $items['ctools_ajax_sample/%ctools_js/animal'] = array(
+      'title' => 'Animal',
+      'page callback' => 'ctools_ajax_sample_animal',
+      'page arguments' => array(1),
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+  );
+  $items['ctools_ajax_sample/%ctools_js/login/%'] = array(
+      'title' => 'Post-Login Action',
+      'page callback' => 'ctools_ajax_sample_login_success',
+      'page arguments' => array(1, 3),
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+  );
+  $items['ctools_ajax_sample/jumped'] = array(
+    'title' => 'Successful Jumping',
+    'page callback' => 'ctools_ajax_sample_jump_menu_page',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+function ctools_ajax_simple_form() {
+  ctools_include('content');
+  ctools_include('context');
+  $node = node_load(1);
+  $context = ctools_context_create('node', $node);
+  $context = array('context_node_1' => $context);
+  return ctools_content_render('node_comment_form', 'node_comment_form', ctools_ajax_simple_form_pane(), array(), array(), $context);
+}
+
+function ctools_ajax_simple_form_pane() {
+  $configuration = array(
+    'anon_links' => 0,
+    'context' => 'context_node_1',
+    'override_title' => 0,
+    'override_title_text' => '',
+  );
+  return $configuration;
+}
+
+/**
+ * Implementation of hook_theme()
+ *
+ * Render some basic output for this module.
+ */
+function ctools_ajax_sample_theme() {
+  return array(
+    // Sample theme functions.
+    'ctools_ajax_sample_container' => array(
+      'arguments' => array('content' => NULL),
+    ),
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Page callbacks
+
+/**
+ * Page callback to display links and render a container for AJAX stuff.
+ */
+function ctools_ajax_sample_page() {
+  global $user;
+
+  // Include the CTools tools that we need.
+  ctools_include('ajax');
+  ctools_include('modal');
+
+  // Add CTools' javascript to the page.
+  ctools_modal_add_js();
+
+  // Create our own javascript that will be used to theme a modal.
+  $sample_style = array(
+    'ctools-sample-style' => array(
+      'modalSize' => array(
+        'type' => 'fixed',
+        'width' => 500,
+        'height' => 300,
+        'addWidth' => 20,
+        'addHeight' => 15,
+      ),
+      'modalOptions' => array(
+        'opacity' => .5,
+        'background-color' => '#000',
+      ),
+      'animation' => 'fadeIn',
+      'modalTheme' => 'CToolsSampleModal',
+      'throbber' => theme('image', array('path' => ctools_image_path('ajax-loader.gif', 'ctools_ajax_sample'), 'alt' => t('Loading...'), 'title' => t('Loading'))),
+    ),
+  );
+
+  drupal_add_js($sample_style, 'setting');
+
+  // Since we have our js, css and images in well-known named directories,
+  // CTools makes it easy for us to just use them without worrying about
+  // using drupal_get_path() and all that ugliness.
+  ctools_add_js('ctools-ajax-sample', 'ctools_ajax_sample');
+  ctools_add_css('ctools-ajax-sample', 'ctools_ajax_sample');
+
+  // Create a list of clickable links.
+  $links = array();
+
+  // Only show login links to the anonymous user.
+  if ($user->uid == 0) {
+    $links[] = ctools_modal_text_button(t('Modal Login (default style)'), 'ctools_ajax_sample/nojs/login', t('Login via modal'));
+
+    // The extra class points to the info in ctools-sample-style which we added
+    // to the settings, prefixed with 'ctools-modal'.
+    $links[] = ctools_modal_text_button(t('Modal Login (custom style)'), 'ctools_ajax_sample/nojs/login', t('Login via modal'),  'ctools-modal-ctools-sample-style');
+  }
+
+  // Four ways to do our animal picking wizard.
+  $button_form = ctools_ajax_sample_ajax_button_form();
+  $links[] = l(t('Wizard (no modal)'), 'ctools_ajax_sample/nojs/animal');
+  $links[] = ctools_modal_text_button(t('Wizard (default modal)'), 'ctools_ajax_sample/nojs/animal', t('Pick an animal'));
+  $links[] = ctools_modal_text_button(t('Wizard (custom modal)'), 'ctools_ajax_sample/nojs/animal', t('Pick an animal'),  'ctools-modal-ctools-sample-style');
+ 

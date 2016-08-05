@@ -1,0 +1,5 @@
+name = Simplenews Toggle
+description = Makes subscribe block works as toggle block (unsubscribe if already subscribed) - Copyright Ninjasoft.pl
+package = Mail
+core = 7.x
+dependencies[] = simplenews

@@ -1,0 +1,30 @@
+.js .select-widget {
+	position: relative;
+	display: inline-block;
+}
+
+.js .select-widget select:not([multiple]) {
+	opacity: 0;
+	position: absolute;
+	z-index: 2;
+	margin: 0;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	display: block;
+	width: 100%;
+}
+
+.js .select-widget select:not([multiple]) + .select-text {
+	position: relative;
+	z-index: 1;
+	background-image: url("../../images/menu-expanded.png");
+	background-position: center right 10px;
+	background-repeat: no-repeat;
+	display: inline !important;
+}
+
+.js .select-widget select:not([multiple]):FOCUS + .select-text {
+	outline: 1px dashed #dad9d9;
+}
