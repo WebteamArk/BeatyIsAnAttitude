@@ -28,3 +28,13 @@
 .js .select-widget select:not([multiple]):FOCUS + .select-text {
 	outline: 1px dashed #dad9d9;
 }
+
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: rgba(0,0,0,0.3);
+}
+
