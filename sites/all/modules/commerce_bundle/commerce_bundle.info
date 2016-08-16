@@ -1,0 +1,26 @@
+name = Commerce Bundle
+description = Provides product bundles for Drupal Commerce.
+package = Commerce (contrib)
+core = 7.x
+
+dependencies[] = commerce_bundle_item
+dependencies[] = inline_entity_form
+dependencies[] = number
+dependencies[] = commerce_product_ui
+
+; Styles
+stylesheets[all][] = theme/commerce_bundle.css
+
+; Views
+files[] = includes/views/handlers/commerce_bundle_handler_field_line_item_title.inc
+files[] = includes/views/handlers/commerce_bundle_handler_field_edit_quantity.inc
+files[] = includes/views/handlers/commerce_bundle_handler_field_edit_delete.inc
+
+
+
+; Information added by Drupal.org packaging script on 2014-02-01
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "commerce_bundle"
+datestamp = "1391216008"
+

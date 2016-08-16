@@ -1,0 +1,26 @@
+.commerce-bundle-product-group {
+  background: #eee;
+  padding: 10px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.commerce-bundle-product-group .commerce-bundle-group-header {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+.commerce-bundle-product-group .commerce-product-extra-field,
+.commerce-bundle-product-group .commerce-product-field,
+.commerce-bundle-product-group .attribute-widgets {
+  padding-left: 10px;
+}
+.commerce-bundle-product-group .commerce-product-field-commerce-price {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+.total-bundle-price {
+  font-size: 1.2em;
+}

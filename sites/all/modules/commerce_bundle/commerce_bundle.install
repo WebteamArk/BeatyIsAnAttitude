@@ -1,0 +1,671 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the Commerce Bundle module.
+ */
+
+/**
+ * Field config and instance definitions.
+ *
+ * @return array
+ *   The fields and their instances, keyed by field name, this module creates.
+ */
+function commerce_bundle_installed_fields() {
+  $fields = array();
+
+  // Field commerce_bundle_id configuration.
+  $fields['field_config']['commerce_bundle_id'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'commerce_bundle_id',
+    'foreign keys' => array(
+      'node' => array(
+        'columns' => array(
+          'target_id' => 'nid',
+        ),
+        'table' => 'node',
+      ),
+    ),
+    'indexes' => array(
+      'target_id' => array(
+        0 => 'target_id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'entityreference',
+    'settings' => array(
+      'handler' => 'base',
+      'handler_settings' => array(
+        'behaviors' => array(
+          'views-select-list' => array(
+            'status' => 0,
+          ),
+        ),
+        'sort' => array(
+          'type' => 'none',
+        ),
+        'target_bundles' => array(),
+      ),
+      'target_type' => 'node',
+    ),
+    'translatable' => 0,
+    'type' => 'entityreference',
+  );
+
+  // Field commerce_bundle_id instance on Product Bundle Line Item.
+  $fields['field_instance']['commerce_bundle_id'] = array(
+    'bundle' => 'commerce_bundle_line_item',
+    'commerce_cart_settings' => array(
+      'field_access' => 0,
+    ),
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'The bundle display node ID.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 5,
+      ),
+    ),
+    'entity_type' => 'commerce_line_item',
+    'field_name' => 'commerce_bundle_id',
+    'label' => 'Bundle ID',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 3,
+    ),
+  );
+
+  // Field commerce_bundle_item_id configuration.
+  $fields['field_config']['commerce_bundle_item_id'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'commerce_bundle_item_id',
+    'foreign keys' => array(
+      'commerce_bundle_item' => array(
+        'columns' => array(
+          'target_id' => 'item_id',
+        ),
+        'table' => 'commerce_bundle_item',
+      ),
+    ),
+    'indexes' => array(
+      'target_id' => array(
+        0 => 'target_id',
+      ),
+    ),
+    'locked' => 1,
+    'module' => 'entityreference',
+    'settings' => array(
+      'handler' => 'base',
+      'handler_settings' => array(
+        'behaviors' => array(
+          'views-select-list' => array(
+            'status' => 0,
+          ),
+        ),
+        'sort' => array(
+          'type' => 'none',
+        ),
+        'target_bundles' => array(),
+      ),
+      'target_type' => 'commerce_bundle_item',
+    ),
+    'translatable' => 0,
+    'type' => 'entityreference',
+  );
+
+  // Field commerce_bundle_item_id instance on Product Bundle Line Item.
+  $fields['field_instance']['commerce_bundle_item_id_line_item'] = array(
+    'bundle' => 'commerce_bundle_line_item',
+    'commerce_cart_settings' => array(
+      'field_access' => 0,
+    ),
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'The bundle item entity ID.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 6,
+      ),
+    ),
+    'entity_type' => 'commerce_line_item',
+    'field_name' => 'commerce_bundle_item_id',
+    'label' => 'Bundle Item ID',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 4,
+    ),
+  );
+
+  // Field commerce_bundle_items configuration.
+  $fields['field_config']['commerce_bundle_items'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'commerce_bundle_items',
+    'foreign keys' => array(
+      'commerce_bundle_item' => array(
+        'columns' => array(
+          'target_id' => 'item_id',
+        ),
+        'table' => 'commerce_bundle_item',
+      ),
+    ),
+    'indexes' => array(
+      'target_id' => array(
+        0 => 'target_id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'entityreference',
+    'settings' => array(
+      'handler' => 'base',
+      'handler_settings' => array(
+        'behaviors' => array(
+          'views-select-list' => array(
+            'status' => 0,
+          ),
+        ),
+        'sort' => array(
+          'type' => 'none',
+        ),
+        'target_bundles' => array(),
+      ),
+      'target_type' => 'commerce_bundle_item',
+    ),
+    'translatable' => 0,
+    'type' => 'entityreference',
+  );
+
+  // Field commerce_bundle_items instance on  Bundle Group product type.
+  $fields['field_instance']['commerce_bundle_items_group_product'] = array(
+    'bundle' => 'commerce_bundle_group',
+    'commerce_cart_settings' => array(
+      'attribute_field' => 0,
+      'attribute_widget' => 'select',
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'hidden',
+        'weight' => 5,
+      ),
+      'line_item' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'node_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'commerce_product',
+    'field_name' => 'commerce_bundle_items',
+    'label' => 'Bundle Items',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'inline_entity_form',
+      'settings' => array(
+        'fields' => array(),
+        'type_settings' => array(
+          'allow_existing' => FALSE,
+          'delete_references' => 0,
+          'match_operator' => 'CONTAINS',
+        ),
+      ),
+      'type' => 'inline_entity_form',
+      'weight' => 12,
+    ),
+  );
+
+  // Field commerce_bundle_unit_quantity configuration.
+  $fields['field_config']['commerce_bundle_unit_quantity'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'commerce_bundle_unit_quantity',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'number',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'number_integer',
+  );
+
+  // Field commerce_bundle_unit_quantity instance on Bundle Group Product Type.
+  $fields['field_instance']['commerce_bundle_unit_quantity_product_type'] = array(
+    'bundle' => 'commerce_bundle_group',
+    'commerce_cart_settings' => array(
+      'field_access' => 0,
+    ),
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => ' ',
+        ),
+        'type' => 'hidden',
+        'weight' => 4,
+      ),
+    ),
+    'entity_type' => 'commerce_product',
+    'field_name' => 'commerce_bundle_unit_quantity',
+    'label' => 'Unit Quantity',
+    'required' => 1,
+    'settings' => array(
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 11,
+    ),
+  );
+
+  // Field commerce_bundle_unit_quantity instance on Bundle Product Line Item
+  // Type.
+  $fields['field_instance']['commerce_bundle_unit_quantity_line_item'] = array(
+    'bundle' => 'commerce_bundle_line_item',
+    'commerce_cart_settings' => array(
+      'field_access' => 0,
+    ),
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => ' ',
+        ),
+        'type' => 'number_integer',
+        'weight' => 4,
+      ),
+    ),
+    'entity_type' => 'commerce_line_item',
+    'field_name' => 'commerce_bundle_unit_quantity',
+    'label' => 'Unit Quantity',
+    'required' => 1,
+    'settings' => array(
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 2,
+    ),
+  );
+
+  // Field commerce_bundle_group_id configuration.
+  $fields['field_config']['commerce_bundle_group_id'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'commerce_bundle_group_id',
+    'foreign keys' => array(
+      'commerce_product' => array(
+        'columns' => array(
+          'target_id' => 'product_id',
+        ),
+        'table' => 'commerce_product',
+      ),
+    ),
+    'indexes' => array(
+      'target_id' => array(
+        0 => 'target_id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'entityreference',
+    'settings' => array(
+      'handler' => 'base',
+      'handler_settings' => array(
+        'behaviors' => array(
+          'views-select-list' => array(
+            'status' => 0,
+          ),
+        ),
+        'sort' => array(
+          'type' => 'none',
+        ),
+        'target_bundles' => array(),
+      ),
+      'target_type' => 'commerce_product',
+    ),
+    'translatable' => 0,
+    'type' => 'entityreference',
+  );
+
+  // Field commerce_bundle_group_id instance on Product Bundle Line Item.
+  $fields['field_instance']['commerce_bundle_group_id'] = array(
+    'bundle' => 'commerce_bundle_line_item',
+    'commerce_cart_settings' => array(
+      'field_access' => 0,
+    ),
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'The bundle group product ID.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 6,
+      ),
+    ),
+    'entity_type' => 'commerce_line_item',
+    'field_name' => 'commerce_bundle_group_id',
+    'label' => 'Bundle Group ID',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 4,
+    ),
+  );
+
+  // Field 'commerce_bundle_config_id' configuration.
+  $fields['field_config']['commerce_bundle_config_id'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'commerce_bundle_config_id',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 1,
+    'module' => 'text',
+    'settings' => array(
+      'max_length' => 255,
+    ),
+    'translatable' => 0,
+    'type' => 'text',
+  );
+
+  // Field 'commerce_bundle_config_id' instance on Bundle Product LI type.
+  $fields['field_instance']['commerce_bundle_config_id'] = array(
+    'bundle' => 'commerce_bundle_line_item',
+    'commerce_cart_settings' => array(
+      'field_access' => 0,
+    ),
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 9,
+      ),
+    ),
+    'entity_type' => 'commerce_line_item',
+    'field_name' => 'commerce_bundle_config_id',
+    'label' => 'Bundle Configuration ID',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 5,
+    ),
+  );
+
+  // Field 'commerce_bundle_group_price' configuration.
+  $fields['field_config']['commerce_bundle_group_price'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'commerce_bundle_group_price',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'currency_price' => array(
+        0 => 'amount',
+        1 => 'currency_code',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'commerce_price',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'commerce_price',
+  );
+
+  // Field 'commerce_bundle_group_price' instance on Bundle Group Product Type.
+  $fields['field_instance']['commerce_bundle_group_price'] = array(
+    'bundle' => 'commerce_bundle_group',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => NULL,
+        'settings' => array(),
+        'type' => 'commerce_price_default',
+        'weight' => 6,
+      ),
+      'line_item' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'node_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'commerce_product',
+    'field_name' => 'commerce_bundle_group_price',
+    'label' => 'Group Price',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'commerce_price',
+      'settings' => array(
+        'currency_code' => 'default',
+      ),
+      'type' => 'commerce_price_full',
+      'weight' => 10,
+    ),
+  );
+
+  return $fields;
+}
+
+/**
+ * Implements hook_install().
+ */
+function commerce_bundle_install() {
+
+  // Create the bundle group product type.
+  $product_type = commerce_product_ui_product_type_new();
+
+  $product_type['type'] = 'commerce_bundle_group';
+  $product_type['name'] = t('Bundle Group');
+  $product_type['description'] = t('A group of related products e.g. t-shirt with attributes of color, and size.');
+  $product_type['is_new'] = TRUE;
+
+  commerce_product_ui_product_type_save($product_type, FALSE);
+
+  commerce_bundle_install_fields();
+}
+
+/**
+ * Create fields and field instances.
+ */
+function commerce_bundle_install_fields() {
+  $fields = commerce_bundle_installed_fields();
+  // Add all fields.
+  foreach ($fields['field_config'] as $field) {
+    // Look for existing field.
+    $field_config = field_info_field($field['field_name']);
+    if (empty($field_config)) {
+      field_create_field($field);
+    }
+  }
+  // Add all field instances.
+  foreach ($fields['field_instance'] as $field_instance) {
+    // Look for existing instance.
+    $instance = field_info_instance($field_instance['entity_type'], $field_instance['field_name'], $field_instance['bundle']);
+    if (empty($instance)) {
+      field_create_instance($field_instance);
+    }
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function commerce_bundle_uninstall() {
+  // Delete field instances attached to commerce entity types this module
+  // creates.
+  module_load_include('module', 'commerce');
+  commerce_delete_instances('commerce_line_item', 'commerce_bundle_line_item');
+  commerce_delete_instances('commerce_product', 'commerce_bundle_group');
+
+  $fields = commerce_bundle_installed_fields();
+  foreach ($fields['field_instance'] as $field_instance) {
+    $instance = field_info_instance($field_instance['entity_type'], $field_instance['field_name'], $field_instance['bundle']);
+    field_delete_instance($instance);
+  }
+  commerce_product_ui_product_type_delete('commerce_bundle_group');
+}
+
+/**
+ * Update bundle item reference fields.
+ */
+function commerce_bundle_update_7100() {
+  commerce_bundle_install_fields();
+
+  // Lock line item field.
+  if ($field = field_info_field('commerce_bundle_item_id')) {
+    $field['locked'] = 1;
+    $field['cardinality'] = 1;
+    field_update_field($field);
+  }
+
+  // Remove instance on product group.
+  if ($old_instance = field_info_instance('commerce_product', 'commerce_bundle_item_id', 'commerce_bundle_group')) {
+    field_delete_instance($old_instance);
+  }
+
+  field_cache_clear();
+}

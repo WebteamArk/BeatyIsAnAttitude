@@ -29,6 +29,21 @@
 	outline: 1px dashed #dad9d9;
 }
 
+body {
+  line-height: 1.2;
+  font-family: sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1.5em;
+}
+
 #header {
   position: fixed;
   top: 0;
@@ -37,4 +52,275 @@
   z-index: 10;
   background: rgba(0,0,0,0.3);
 }
+
+a.fancybutton,
+.allfancy a,
+.more-link a,
+.fancyblock {
+  padding: 10px 20px;
+  font-size: 12px;
+  line-height: 17px;
+  box-shadow: 0 0 5px -1px black;
+  background: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: black;
+}
+
+a.fancybutton,
+.allfancy a,
+.more-link a {
+  display: inline-block;
+}
+
+#topblocks .contextual-links-wrapper {
+  top: 50px;
+}
+
+.block.nailiner1 {
+  position: relative;
+}
+
+.block.nailiner1 .overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.block.nailiner1 svg {
+  display: block;
+}
+
+.skipdown {
+  display: inline-block;
+  background: url("../../images/skipdown.png") center center no-repeat transparent;
+  width: 40px;
+  height: 17px;
+  overflow: hidden;
+  text-indent: -9999px;
+}
+
+.block.nailiner1 .overlay .skipdown {
+  margin: 75px 0 55px;  
+}
+
+.node-block1 .content {
+  display: flex;
+  align-items: center;
+  align-content: center;
+}
+
+.node-block1 .content > * {
+  width: 50%;
+  box-sizing: border-box;
+}
+
+.node-block1 .content .group-left {
+  text-align: right;
+  padding-left: 100px;
+  padding-right: 0px;
+}
+
+.node-block1 .content .group-right {
+  padding-left: 100px;
+  padding-right: 100px;
+  color: #95989a;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.block-title {
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 27px;
+  text-align: center;
+  margin: 0px 0 55px;
+}
+
+#content .block {
+  margin:0;
+  padding: 55px 0;
+}
+
+.node-block1 .field-name-field-textline {
+  color: black;
+  font-size: 20px;
+  line-height: 27px;
+  margin-bottom: 15px;
+}
+
+
+.view.trending .slide__content {
+  width: 200px;
+  height: 222px;
+  padding: 50px 25px 25px;
+  box-sizing: border-box;
+  text-align: center;
+  -webkit-transition: all 200ms; /* Safari */
+  transition: all 200ms;
+  box-shadow: 0 0 5px -1px transparent;
+  border: 1px solid transparent;
+}
+
+.views-field-field-color .jquery_colorpicker_color_display {
+  height: 58px;
+  width: 58px;
+  border-radius: 30px;
+  display: inline-block;
+}
+
+
+.view.trending .slick-current .slide__content {
+  box-shadow: 0 0 5px -1px black;
+  border: 1px solid #95989a;
+}
+
+.view.trending .views-field-title {
+  line-height: 16px;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 25px 0 10px;
+}
+
+.view.trending .views-field-sku {
+  line-height: 1.2;
+  font-size: 12px;
+}
+
+.more-link {
+  text-align: center;
+}
+
+.not-front #lowblocks {
+  padding-top: 100px;
+}
+
+
+.view-biaa-block .view-content {
+    font-size: 0;
+    line-height: 0;
+    text-align: center;
+}
+
+
+.view-biaa-block .views-row {
+    box-sizing: border-box;
+    display: inline-block;
+    height: 25%;
+    overflow: hidden;
+    position: relative;
+    width: 25%;
+}
+
+.view-biaa-block .views-row img {
+    display: block;
+    transform: scale(1.01);
+    transition: all 1500ms ease 0s;
+}
+
+.view-biaa-block .views-row:hover img {
+    transform: scale(1.2);
+}
+
+.view-finishblock .view-content {
+  font-size: 0;
+}
+
+.view-finishblock .views-row {
+  font-size: 15px;
+  display: inline-block;
+  width: 50%;
+  box-sizing: border-box;
+  padding: 10px 100px;
+  position: relative;
+  line-height: 1.3;
+}
+
+.view-finishblock .views-row .views-field-field-svg {
+  position: absolute;
+  top: 10px;
+  left: 40px;
+  height: 40px;
+  width: 40px;
+  text-align: left;
+}
+
+.view-finishblock .views-row:nth-child(odd) {
+  text-align: right;
+}
+
+.view-finishblock .views-row:nth-child(odd) .views-field-field-svg {
+  right: 40px;
+  left: auto;
+}
+
+
+.view-finishblock .views-field-name {
+  margin: 10px 0 5px;
+  text-transform: uppercase;
+}
+
+.view-finishblock .views-field-description {
+  color: #95989a;
+}
+
+#block-views-faq-block-1 {
+  background: url("../../images/bgfaq.png") center center no-repeat transparent;
+  background-size: cover;
+  padding: 0;
+  
+}
+
+
+#block-views-faq-block-1 .view {
+  font-weight: bold;
+  display: flex;
+  min-height: 57.8vw;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  padding: 55px 0; 
+}
+
+#block-views-faq-block-1 .view-content {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+#block-views-faq-block-1 .views-row {
+  margin: 10px auto;
+  max-width: 600px;
+  font-szie: 12px;
+  text-transform: uppercase;
+}
+
+#page-title-outer {
+  display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
