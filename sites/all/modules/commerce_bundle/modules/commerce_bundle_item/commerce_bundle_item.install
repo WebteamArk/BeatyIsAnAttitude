@@ -1,0 +1,87 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function commerce_bundle_item_schema() {
+  $schema = array();
+
+  $schema['commerce_bundle_item'] = array(
+    'description' => 'The base table for bundle items.',
+    'fields' => array(
+      'item_id' => array(
+        'description' => 'The primary identifier for a bundle item.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'type' => array(
+        'description' => 'The module defined type of this bundle item.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'status' => array(
+        'description' => 'Boolean indicating whether or not the bundle item is active.',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 1,
+      ),
+      'created' => array(
+        'description' => 'The Unix timestamp when the bundle item was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'changed' => array(
+        'description' => 'The Unix timestamp when the bundle item was most recently saved.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('item_id'),
+    'indexes' => array(
+      'item_type' => array('type'),
+    ),
+  );
+  if (module_exists('uuid')) {
+    $schema['commerce_bundle_item']['fields']['uuid'] = uuid_schema_field_definition();
+  }
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_requirements().
+ */
+function commerce_bundle_item_requirements($phase) {
+  $t = get_t();
+  $requirements = array();
+
+  if (module_exists('entity')) {
+    $path = drupal_get_path('module', 'entity') . '/entity.info';
+    $info = drupal_parse_info_file($path);
+    if (isset($info['version']) && !version_compare($info['version'], '7.x-1.2', '>=')) {
+      $requirements['commerce_bundle_item_entity'] = array(
+        'title' => $t('Entity'),
+        'value' => $t('Less than 7.x-1.2'),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => $t('Commerce Bundle Item requires Entity 7.x-1.2+'),
+      );
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function commerce_bundle_item_uninstall() {
+  // Delete any field instance attached to a bundle item type.
+  module_load_include('module', 'commerce');
+  commerce_delete_instances('commerce_bundle_item');
+}

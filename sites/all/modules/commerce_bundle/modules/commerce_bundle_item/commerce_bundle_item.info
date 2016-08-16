@@ -1,0 +1,36 @@
+name = Commerce Bundle Item
+description = Provides an entity to store details when a product is part of a bundle.
+package = Commerce (contrib)
+core = 7.x
+
+dependencies[] = commerce
+dependencies[] = entity
+dependencies[] = entityreference
+dependencies[] = commerce_price
+
+
+; Entity includes
+files[] = includes/commerce_bundle_item.controller.inc
+files[] = includes/commerce_bundle_item.ui.inc
+
+; IEF includes
+files[] = includes/commerce_bundle_item.inline_entity_form.inc
+
+; Views includes
+files[] = includes/views/handlers/commerce_bundle_item_handler_field_item.inc
+files[] = includes/views/handlers/commerce_bundle_item_handler_field_item_link.inc
+files[] = includes/views/handlers/commerce_bundle_item_handler_field_item_link_delete.inc
+files[] = includes/views/handlers/commerce_bundle_item_handler_field_item_link_edit.inc
+files[] = includes/views/handlers/commerce_bundle_item_handler_field_item_operations.inc
+files[] = includes/views/handlers/commerce_bundle_item_handler_field_item_type.inc
+files[] = includes/views/handlers/commerce_bundle_item_handler_filter_item_type.inc
+
+; Commerce Multichannel Integration Migration Class
+files[] = includes/commerce_multichannel.commerce_bundle_item.inc
+
+; Information added by Drupal.org packaging script on 2014-02-01
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "commerce_bundle"
+datestamp = "1391216008"
+

@@ -71,7 +71,9 @@
 ?>
 
 <div id="page">
-
+  <div id="topblocks">
+      <?php print render($page['extra_1']); ?>
+  </div>
   <header id="header" role="banner">
     <div class="main-inner">
 
@@ -112,11 +114,7 @@
     <?php print render($page['header']); ?>
     </div>
   </header>
-  <div id="mediumblocks">
-    <div class="main-inner">
-      <?php print render($page['extra_1']); ?>
-    </div>
-  </div>
+
   <div id="lowblocks">
     <div class="main-inner">
       <?php print render($page['extra_2']); ?>
