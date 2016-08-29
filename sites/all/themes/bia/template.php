@@ -128,13 +128,36 @@ function bia_preprocess_maintenance_page(&$variables, $hook) {
  * @param $hook
  *   The name of the template being rendered ("html" in this case.)
  */
-/* -- Delete this line if you want to use this function
+//* -- Delete this line if you want to use this function
 function bia_preprocess_html(&$variables, $hook) {
-  $variables['sample_variable'] = t('Lorem ipsum.');
+  //$variables['sample_variable'] = t('Lorem ipsum.');
 
   // The body tag's classes are controlled by the $classes_array variable. To
   // remove a class from $classes_array, use array_diff().
   //$variables['classes_array'] = array_diff($variables['classes_array'], array('class-to-remove'));
+  $node = menu_get_object();
+
+  //if (in_array('section-shop', $variables['classes_array'])) $variables['classes_array'][] = 'layout-shop';
+  //if (in_array('section-cart', $variables['classes_array'])) $variables['classes_array'][] = 'layout-shop';
+  //if (in_array('section-checkout', $variables['classes_array'])) $variables['classes_array'][] = 'layout-shop';
+
+
+  if (isset($node) && (isset($node->field_layout[LANGUAGE_NONE][0]['value']))) {
+    $variables['classes_array'][]= 'layout-'.$node->field_layout[LANGUAGE_NONE][0]['value'];
+  }
+  
+  if (isset($node) && (isset($node->type))) {
+    switch ($node->type) {
+    	case 'webform':
+    	case 'article':
+    	$variables['classes_array'][] = 'whiteheader'; ;
+    	break;
+    	default:
+    	;
+    	break;
+    }
+  }
+  
 }
 // */
 
@@ -267,7 +290,7 @@ function bia_form_element_label($variables) {
   }
 
   // The leading whitespace helps visually separate fields from inline labels.
-  return ' <label' . drupal_attributes($attributes) . '>' . $t('!required !title', array('!title' => $title, '!required' => $required)) . "</label>\n";
+  return ' <label' . drupal_attributes($attributes) . '>' . $t('!title !required', array('!title' => $title, '!required' => $required)) . "</label>\n";
 }
 
 
@@ -291,6 +314,27 @@ function bia_field($variables) {
   $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
 
   return $output;
+}
+
+function bia_field__field_layout($variables){
+
+  $output = '';
+  foreach ($variables['items'] as $delta => $item) {
+    $variables['classes'] .= ' layout-'.drupal_render($item).' ';
+  }
+  $output .= '';
+  
+  // Render the top-level DIV.
+  $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
+  
+  return $output;
+}
+
+function bia_field__field_youtube($variables){
+  foreach ($variables['element']['#items'] as $id=>$item) {
+    $variables['items'][$id]['#markup'] ='<iframe width="640" height="360" src="https://www.youtube.com/embed/'.$item['safe_value'].'" frameborder="0" allowfullscreen></iframe>'; 
+  } 
+  return bia_field($variables);  
 }
 
 function bia_commerce_price_formatted_components($variables){
@@ -356,7 +400,95 @@ function bia_links__locale_block($variables){
 
 function bia_select($variables) {
   $element = $variables['element'];
+  if (isset($element['#exposedall']) && $element['#exposedall']) {
+  	$title = $element['#exposedall'];
+  	$element['#options']['All'] = ' - '.$title.' - '; 
+  }
+  
   element_set_attributes($element, array('id', 'name', 'size'));
   _form_set_class($element, array('form-select'));
   return '<div class="select-widget"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select><input type="text" class="select-text form-text" tabindex="-1" style="display:none" /></div>';
 }
+
+function bia_textfield($variables){
+  $element = $variables['element'];
+  if (!isset($variables['element']['#attributes']['placeholder'])) $variables['element']['#attributes']['placeholder'] = $variables['element']['#title'];
+  return theme_textfield($variables);
+}
+
+function bia_password($variables){
+  $element = $variables['element'];
+  if (!isset($variables['element']['#attributes']['placeholder'])) $variables['element']['#attributes']['placeholder'] = $variables['element']['#title'];
+  return theme_password($variables);
+}
+
+function bia_textarea($variables){
+  $element = $variables['element'];
+  if (!isset($variables['element']['#attributes']['placeholder'])) $variables['element']['#attributes']['placeholder'] = $variables['element']['#title'];
+  return theme_textarea($variables);
+}
+
+function bia_select_as_radios($vars) {
+  if ($vars['element']['#name'] == 'field_nailiner_type_tid') {
+    $element = &$vars['element'];
+    
+    if (!empty($element['#bef_nested'])) {
+      return theme('select_as_tree', $vars);
+    }
+    
+    //dpm($element);
+    
+    $output = '';
+    foreach (element_children($element) as $key) {
+      $element[$key]['#default_value'] = NULL;
+      $term = taxonomy_term_load($element[$key]['#return_value']);
+      
+      $row = '';
+      
+      if (isset($term->field_svg[LANGUAGE_NONE][0])) {
+        $row.= '<img class="nailiner" src="'.file_create_url($term->field_svg[LANGUAGE_NONE][0]['uri']).'">';
+      }
+      
+      if (isset($term->field_svg_hover[LANGUAGE_NONE][0])) {
+        $row.= '<img class="nailiner-hover" src="'.file_create_url($term->field_svg[LANGUAGE_NONE][0]['uri']).'">';
+      }
+      $row.= '<span class="ntext">'.$term->name.'</span>'; 
+      //dpm($term);
+      
+      
+      $element[$key]['#children'] = theme('radio', array('element' => $element[$key])).$row;
+      $output .= theme('form_element', array('element' => $element[$key]));
+    }
+    
+    return $output;
+    
+  } else {
+    return theme_select_as_radios($vars);
+  }
+  
+}
+
+function bia_preprocess_views_exposed_form(&$vars) {
+  $form = &$vars['form'];
+  foreach ($form['#info'] as $id => $info) {
+    $widget = $vars['widgets'][$id];
+    if ($form[$info['value']]['#type'] == 'select') {
+      $form[$info['value']]['#printed'] = false;
+      $form[$info['value']]['#exposedall'] = $info['label'];
+      $widget->widget = drupal_render($form[$info['value']]);
+      $vars['widgets'][$id] = $widget;
+    }
+  }
+}
+
+function bia_field__field_product_pictures($variables){
+  $view = views_get_view('_product_pictures');
+  $view->hide_admin_links = TRUE;
+  $display_id = 'default';
+  $view->set_display($display_id);
+  $view->preview = TRUE; //avoid lots of unuseful menu hooks title hooks etc
+  $view->pre_execute(array($variables['element']['#object']->nid)); // args passed here
+  $view->is_cacheable = FALSE; // optionally
+  return $view->render($display_id);
+}
+

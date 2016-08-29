@@ -1,0 +1,50 @@
+<?php
+
+function biamod_field_collection_item_presave(FieldCollectionItemEntity $field_collection_item) {
+  if (isset($field_collection_item->field_youtube[LANGUAGE_NONE][0])) {
+    $val = trim($field_collection_item->field_youtube[LANGUAGE_NONE][0]['value']);
+    
+    $leads = array(
+    	'watch?v=',
+      'youtu.be/',
+      'embed/',
+    );
+    
+    $ends = array('&','?','%',' ');
+    
+    foreach ($leads as $lead) {
+      if (strpos($val, $lead) !== false) {
+        $val = substr($val, strpos($val, $lead) + strlen($lead));
+      }
+    }
+    
+    foreach ($ends as $end) {
+      if (strpos($val, $end) !== false) {
+        $val = substr($val, 0, strpos($val, $end));
+      }
+    }
+    
+    $field_collection_item->field_youtube[LANGUAGE_NONE][0]['value'] = $val;
+    
+    
+    
+    /* if (!isset($field_collection_item->field_zdjecie[LANGUAGE_NONE][0])) {
+      
+      $image = file_get_contents('http://img.youtube.com/vi/'.$val.'/0.jpg'); // string
+      $file = file_save_data($image, 'public://youtube_'.transliteration_clean_filename($val).'.png',FILE_EXISTS_REPLACE);
+      $info = image_get_info($file->uri);
+      
+      $image = array(
+      	'title'=>'',
+        'fid' => $file->fid,
+        'display' => '1',
+        'width' => $info['width'],
+        'height' => $info['height'],
+        'description' => '',
+        'upload' => '',
+        'alt' => '',
+      );
+      $field_collection_item->field_zdjecie[LANGUAGE_NONE][0] = $image;
+    } */
+  }
+}
