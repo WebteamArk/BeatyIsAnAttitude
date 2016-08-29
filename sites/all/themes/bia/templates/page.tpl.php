@@ -68,6 +68,11 @@
  * @see zen_preprocess_page()
  * @see template_process()
  */
+
+$logo_arr = explode(".", strtolower($logo));
+$ext = array_pop($logo_arr);
+$logobk = implode(".", $logo_arr).'bk.'.$ext;
+
 ?>
 
 <div id="page">
@@ -79,6 +84,7 @@
 
     <?php if ($logo): ?>
       <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" /></a>
+      <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logobk"><img src="<?php print $logobk; ?>" alt="<?php print t('Home'); ?>" /></a>
     <?php endif; ?>
 
     <?php if ($site_name || $site_slogan): ?>
@@ -114,12 +120,6 @@
     <?php print render($page['header']); ?>
     </div>
   </header>
-
-  <div id="lowblocks">
-    <div class="main-inner">
-      <?php print render($page['extra_2']); ?>
-    </div>
-  </div>
   <?php print $messages; ?>
   <div id="main" class="clearfix">
 
@@ -179,6 +179,7 @@
         </aside><!-- /.sidebars -->
         <div class="sideshadow sideshadow-right"></div>
       <?php endif; ?>
+      <?php print render($page['extra_2']); ?>
     </div>
   </div><!-- /#main -->
 
