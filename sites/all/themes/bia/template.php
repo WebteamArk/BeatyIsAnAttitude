@@ -345,8 +345,7 @@ function bia_commerce_price_formatted_components($variables){
     $price['title'] = t($price['title']);
     $variables['components'][$price_name] = $price;
   }
-
-	return theme_commerce_price_formatted_components($variables);
+  return theme_commerce_price_formatted_components($variables);
 }
 
 function bia_fieldset($variables){
@@ -492,3 +491,32 @@ function bia_field__field_product_pictures($variables){
   return $view->render($display_id);
 }
 
+
+function bia_field__file($variables){
+  foreach($variables['items'] as $pos => $item) {
+    if ($item['#file']->filemime == 'image/svg+xml') {
+      $variables['items'][$pos]['#theme'] = 'image';
+      $variables['items'][$pos]['#item'] = array(
+          'path' => $item['#file']->uri,
+          'uri' => $item['#file']->uri,
+          'width' => '',
+          'height' => '',
+          'alt' => $item['#file']->description,
+          'title' => $item['#file']->description,
+      );
+      
+      $variables['items'][$pos]['#path'] = $item['#file']->uri; 
+    }
+  }
+  
+  return bia_field($variables);
+}
+
+function bia_field__field_color($variables) {
+  foreach ($variables['element']['#items'] as $delta => $item) {
+    if (!isset($variables['item_attributes'][$delta])) $variables['item_attributes'][$delta] = '';
+    $variables['item_attributes'][$delta].= ' style="background-color: #'.$item['jquery_colorpicker'].'" ';
+  }
+  
+  return bia_field($variables);
+}

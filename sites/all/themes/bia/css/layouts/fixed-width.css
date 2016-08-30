@@ -31,7 +31,7 @@
 
 body {
   line-height: 1.2;
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 a {
@@ -140,7 +140,7 @@ a.fancybutton,
 }
 
 .block-title,
-.field-name-field-title {
+.node > .field-name-field-title {
   text-transform: uppercase;
   font-weight: bold;
   letter-spacing: 3px;
@@ -1141,25 +1141,124 @@ table.checkout-review {
   padding: 0 50px 75px;
 }
 
+
+.node-product .commerce-product-field-field-solo-bundle,
+.node-product .commerce-product-field-field-product-type,
 .node-product .commerce-product-title {
+  letter-spacing: 4px;
   font-size: 20px;
-  margin-bottom: 30px;
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: 700;
+  line-height: 27px;
+}
+
+.node-product .commerce-product-field-field-solo-bundle {
+  margin-bottom: 30px;
+}
+
+.commerce-price-savings-formatter-prices tr td {
+  font-size: inherit;
+  line-height: inherit;
+  padding: 0;
+  font-size: 25px;
+  padding-right: 10px;
+}
+
+.commerce-price-savings-formatter-price {
+  font-weight: 700;
+}
+
+.commerce-price-savings-formatter-price .price-amount {
+  font-size: inherit;
+}
+
+.commerce-price-savings-formatter-prices-down .commerce-price-savings-formatter-price .price-amount {
+  color: inherit;
+}
+
+.taxonomy-term {
+  position: relative;
 }
 
 
+.taxonomy-term .field-name-field-svg-hover,
+.taxonomy-term .field-name-field-svg,
+.taxonomy-term.vocabulary-nailiners .field-name-field-title {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  -webkit-transition: all 200ms; /* Safari */
+  transition: all 200ms;
+}
+
+.taxonomy-term .field-name-field-svg {
+  z-index: 1;
+  opacity: 1;
+}
+
+.taxonomy-term .field-name-field-svg-hover {
+  position: absolute;
+  left: 0;
+  z-index: 2;
+  opacity: 0;
+}
 
 
+.taxonomy-term:hover .field-name-field-svg {
+  opacity: 0;
+}
+
+.taxonomy-term:hover .field-name-field-svg-hover {
+  opacity: 1;
+}
 
 
+.taxonomy-term.vocabulary-nailiners .field-name-field-title {
+  margin-left: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
 
+.taxonomy-term .field-name-field-svg img,
+.taxonomy-term .field-name-field-svg-hover img {
+  width: 52px;
+}
 
+.commerce-product-field-field-nailiner-type {
+  margin-bottom: 25px;
+}
 
+.commerce-product-field-field-fashion-type,
+.commerce-product-field-field-color-type,
+.commerce-product-field-field-main-color,
+.commerce-product-field-field-amount {
+  font-size: 16px;
+  font-weight: 500;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #95989a;
+}
 
+.commerce-product-field-field-amount {
+  border-bottom: 1px solid #95989a;
+  margin-bottom: 25px;
+}
 
+.commerce-add-to-cart .form-submit {
+  background: url("../../images/cart.svg") 18px 50% no-repeat transparent;
+  background-size: 20px auto;
+  padding-left: 50px;
+}
 
-
+.field-name-field-color .field-item {
+  text-indent: -9999px;
+  overflow: hidden;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  display: inline-block;
+}
 
 
 
