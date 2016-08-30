@@ -85,7 +85,7 @@
     <meta name="viewport" content="width=device-width">
   <?php endif; ?>
 
-  <link href='http://fonts.googleapis.com/css?family=Roboto:300,400,700,900' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"> 
   <?php print $styles; ?>
   <?php print $scripts; ?>
   <?php if ($add_respond_js): ?>
