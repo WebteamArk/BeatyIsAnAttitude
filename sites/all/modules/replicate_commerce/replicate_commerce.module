@@ -11,6 +11,7 @@ function replicate_commerce_replicate_entity_commerce_product(&$entity) {
   $entity->revision_id = NULL;
   $entity->revision_timestamp = NULL;
   $entity->product_id = NULL;
+  $entity->sku = $entity->sku . '_' . rand(10000, 99999);
 }
 
 /**
