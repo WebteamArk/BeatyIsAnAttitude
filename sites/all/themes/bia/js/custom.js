@@ -14,9 +14,6 @@
 		//Creating an index for the lenght of the array
 		$index = pagecolors.length -1;
 
-		//Calling the function at the page ready so the first color gets loaded in
-		changeColor();
-
 		//Variables for the fading time in seconds
 		$fadetime = 8000;
 		var fadeTimeItems = $fadetime /= 2;
@@ -24,11 +21,56 @@
 		//Fading the pen only at the beginning
 		$('#pen').fadeTo(0,0);
 	  	$('#pen').fadeTo(fadeTimeItems,1);
-
-		//Calling the function every 10 seconds
-		window.setInterval(function(){
-  			changeColor();
-		}, $fadetime);
+	  	
+	  	if ($('body.node-type-product .field-name-field-color .field-item').length) {
+		  	// The node to be monitored
+		  	var target = $( "body.node-type-product .commerce-product-field-field-color").parent()[0];
+	
+		  	// Create an observer instance
+		  	var observer = new MutationObserver(function( mutations ) {
+		  	  mutations.forEach(function( mutation ) {
+		  	    var newNodes = mutation.addedNodes; // DOM NodeList
+		  	    if( newNodes !== null ) { // If there are new nodes added
+		  	    	var $nodes = $( newNodes ); // jQuery set
+		  	    	$nodes.each(function() {
+		  	    		var $node = $( this );
+		  	    		if( $node.hasClass( "commerce-product-field-field-color" ) ) {
+		  	    			// do something
+		  	    			updateColorPalette();
+		  	    		}
+		  	    	});
+		  	    }
+		  	  });    
+		  	});
+	
+		  	// Configuration of the observer:
+		  	var config = { 
+		  		childList: true, 
+		  	};
+		  	 
+		  	// Pass in the target node, as well as the observer options
+		  	observer.observe(target, config);
+	  	}
+	  	
+	  	function updateColorPalette() {
+	  		if ($('body.node-type-product .field-name-field-color .field-item').length) {
+				pagecolors = ["#"+$('body.node-type-product .field-name-field-color .field-item').text()];
+				$index = pagecolors.length -1;
+				changeColor();
+			}
+	  	}
+	  	
+	  	
+	  	//match color to the nailiner color if we are on product view page
+	  	if ($('body.node-type-product .field-name-field-color .field-item').length) {
+	  		updateColorPalette();
+		} else {
+			//or keep changing colours every $fadetime seconds otherwise
+			changeColor();
+			window.setInterval(function(){
+	  			changeColor();
+			}, $fadetime);
+		}
 
 		//Function to change the colors
 		function changeColor (){			

@@ -428,7 +428,7 @@ function bia_textarea($variables){
 }
 
 function bia_select_as_radios($vars) {
-  if ($vars['element']['#name'] == 'field_nailiner_type_tid') {
+  if ($vars['element']['#name'] == 'type') {
     $element = &$vars['element'];
     
     if (!empty($element['#bef_nested'])) {

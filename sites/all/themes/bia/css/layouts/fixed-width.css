@@ -318,7 +318,7 @@ a.fancybutton,
   justify-content: center;
 }
 
-.view-product-listing-nailiners .views-exposed-form #edit-field-nailiner-type-tid-wrapper {
+.view-product-listing-nailiners .views-exposed-form #edit-type-wrapper {
   width: 100%;
   text-align: center;
 }
@@ -345,11 +345,11 @@ a.fancybutton,
   box-shadow: 0 0 5px -1px rgba(0,0,0,1);
 }
 
-#edit-field-nailiner-type-tid {
+#edit-type.bef-select-as-radios {
   margin-bottom: 75px;
 }
 
-.form-type-radio.form-item-field-nailiner-type-tid {
+.form-type-radio.form-item-type {
   display: inline-block;
   position: relative;
   width: 200px;
@@ -357,11 +357,11 @@ a.fancybutton,
    
 }
 
-.form-type-radio.form-item-field-nailiner-type-tid input {
+.form-type-radio.form-item-type input {
   display: none;
 }
 
-.form-type-radio.form-item-field-nailiner-type-tid img {
+.form-type-radio.form-item-type img {
   height: 92px;
   position: absolute;
   top: 25px;
@@ -372,20 +372,20 @@ a.fancybutton,
   z-index: 4;
 }
 
-.form-type-radio.form-item-field-nailiner-type-tid img.nailiner-hover {
+.form-type-radio.form-item-type img.nailiner-hover {
   opacity: 0;
   z-index: 5;
 }
 
-.form-type-radio.form-item-field-nailiner-type-tid:hover img.nailiner {
+.form-type-radio.form-item-type:hover img.nailiner {
   opacity: 0;
 }
 
-.form-type-radio.form-item-field-nailiner-type-tid:hover img.nailiner-hover {
+.form-type-radio.form-item-type:hover img.nailiner-hover {
   opacity: 1;
 }
 
-.form-type-radio.form-item-field-nailiner-type-tid .ntext {
+.form-type-radio.form-item-type .ntext {
   position: absolute;
   top: 0;
   left: 0;
@@ -406,12 +406,12 @@ a.fancybutton,
   transition: box-shadow 200ms;
 }
 
-.form-type-radio.form-item-field-nailiner-type-tid:hover .ntext,
-.form-type-radio.form-item-field-nailiner-type-tid :checked ~ .ntext {
+.form-type-radio.form-item-type:hover .ntext,
+.form-type-radio.form-item-type :checked ~ .ntext {
   box-shadow: 0 0 5px -1px rgba(0,0,0,255);
 }
 
-.form-type-radio.form-item-field-nailiner-type-tid label {
+.form-type-radio.form-item-type label {
   display: block;
   position: absolute;
   top: 0;
@@ -467,7 +467,7 @@ a.fancybutton,
   margin-bottom: 75px;
 }
 
-#edit-field-nailiner-type-tid-wrapper {
+#edit-type-wrapper {
   padding: 0;
 }
 
@@ -1180,8 +1180,6 @@ table.checkout-review {
   position: relative;
 }
 
-
-.taxonomy-term .field-name-field-svg-hover,
 .taxonomy-term .field-name-field-svg,
 .taxonomy-term.vocabulary-nailiners .field-name-field-title {
   display: inline-block;
@@ -1191,28 +1189,6 @@ table.checkout-review {
   transition: all 200ms;
 }
 
-.taxonomy-term .field-name-field-svg {
-  z-index: 1;
-  opacity: 1;
-}
-
-.taxonomy-term .field-name-field-svg-hover {
-  position: absolute;
-  left: 0;
-  z-index: 2;
-  opacity: 0;
-}
-
-
-.taxonomy-term:hover .field-name-field-svg {
-  opacity: 0;
-}
-
-.taxonomy-term:hover .field-name-field-svg-hover {
-  opacity: 1;
-}
-
-
 .taxonomy-term.vocabulary-nailiners .field-name-field-title {
   margin-left: 20px;
   font-size: 16px;
@@ -1220,8 +1196,7 @@ table.checkout-review {
   text-transform: uppercase;
 }
 
-.taxonomy-term .field-name-field-svg img,
-.taxonomy-term .field-name-field-svg-hover img {
+.taxonomy-term .field-name-field-svg img {
   width: 52px;
 }
 
