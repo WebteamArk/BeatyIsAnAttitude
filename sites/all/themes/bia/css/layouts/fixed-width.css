@@ -595,7 +595,7 @@ a.fancybutton,
   display: inline-block;
 }
 
-.view table,
+.views-table,
 table.checkout-review {
   border: 1px solid black;
   border-collapse: collapse;
@@ -1235,17 +1235,111 @@ table.checkout-review {
   display: inline-block;
 }
 
+#block-views-variations-block {
+  background: #eef3f6;  
+}
 
+.view-variations .slide__content {
+  width: 416px;
+  height: 432px;
+  padding: 250px 25px 25px;
+  box-sizing: border-box;
+  text-align: center;
+  -webkit-transition: all 200ms; /* Safari */
+  transition: all 200ms;
+  box-shadow: 0 0 5px -1px transparent;
+  border: 1px solid transparent;
+  position: relative;
+  background-color: rgba(255,255,255,0);
+}
 
+.view-variations .slide__content:hover {
+  box-shadow: 0 0 5px -1px black;
+  border: 1px solid #95989a;
+  background-color: rgba(255,255,255,1);
+}
+ 
+.view-variations .taxonomy-term .field-name-field-title {
+  display: none;
+}
 
+.view-variations .views-field-php .color, 
+.view-variations .views-field-field-color .jquery_colorpicker_color_display {
+  height: 180px;
+  width: 180px;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  -ms-transform: translate(-50%, 0%); /* IE 9 */
+  -webkit-transform: translate(-50%, 0%); /* Safari */
+  transform: translate(-50%, 0%);
+  border-radius: 180px;
+  border: 50px solid #eef3f6;
+  box-sizing: border-box;
+}
 
+.view-variations .views-field-field-nailiner-type .taxonomy-term {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  margin-left: 10px;
+  z-index: 10;
+}
 
+.view-variations .views-field-field-nailiner-type .taxonomy-term img {
+  border-radius: 180px;
+  border: 10px solid #eef3f6;
+  background-color: #eef3f6;
+}
 
+.view-variations .views-field-field-nailiner-type .taxonomy-term:nth-child(2) {
+  top: 97px;
+  margin-left: 40px;
+}
 
+.view-variations .views-field-field-nailiner-type .taxonomy-term:nth-child(3)  {
+  top: 160px;
+  margin-left: 18px;
+}
 
+.view-variations .views-field-field-solo-bundle,
+.view-variations .views-field-field-product-type,
+.view-variations .views-field-title {
+  font-size: 12px;
+  line-height: 15px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
 
+.view-variations .views-field-title {
+  margin-bottom: 1em;
+}
 
+.view-variations .views-field-sku {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.2;
+}
 
+.view-variations .views-field-commerce-price .commerce-price-savings-formatter-prices tr td {
+  font-size: 12px;
+}
+
+.view-variations .views-field-commerce-price .commerce-price-savings-formatter-prices {
+  width: auto;
+  margin: 1em auto;
+}
+
+.view-variations .views-field-view-node a {
+  position: absolute;
+  z-index: 11;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: block;
+  text-indent: -9999px;
+}
 
 
 
