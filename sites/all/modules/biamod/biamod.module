@@ -48,3 +48,71 @@ function biamod_field_collection_item_presave(FieldCollectionItemEntity $field_c
     } */
   }
 }
+
+function biamod_form_alter(&$form, &$form_state, $form_id) {
+  if($form_id == 'commerce_product_ui_product_form' && isset($form['field_nailiner_type'])) {
+    unset($form['field_nailiner_type']);
+  }
+}
+
+function biamod_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
+  if ($entity_form['#entity_type'] == 'commerce_product' && $entity_form['#entity']->type == 'nailiners' && isset($entity_form['field_nailiner_type'])) {
+    unset($entity_form['field_nailiner_type']);
+  }
+}
+
+function biamod_entity_presave($entity, $type) {
+  if ($type == 'commerce_product' && $entity->type == 'nailiners' ) {
+    $entity->field_nailiner_type[LANGUAGE_NONE] = array();
+    foreach ($entity->field_nailiner_type_taxonomy[LANGUAGE_NONE] as $id => $term) {
+      $entity->field_nailiner_type[LANGUAGE_NONE][$id] = array('target_id'=>$term['tid']);
+    }
+  } 
+}
+
+function biamod_entity_update($entity, $type) {
+  if ($type == 'commerce_product' && $entity->type == 'nailiners' ) {
+    biamod_update_solo_nailiners($entity);
+  }
+}
+
+function biamod_entity_insert($entity, $type) {
+  if ($type == 'commerce_product' && $entity->type == 'nailiners' ) {
+    biamod_update_solo_nailiners($entity);
+  }
+}
+
+function biamod_update_solo_nailiners($entity) {
+  if (!isset($entity->field_products_solonail[LANGUAGE_NONE][0]) || 
+      $entity->field_solo_bundle[LANGUAGE_NONE][0]['value'] == 'solo' && count($entity->field_products_solonail[LANGUAGE_NONE]) != 1 ||
+      $entity->field_solo_bundle[LANGUAGE_NONE][0]['value'] == 'solo' && $entity->field_products_solonail[LANGUAGE_NONE][0]['target_id'] != $entity->product_id) {
+    $entity->field_products_solonail[LANGUAGE_NONE] = array('0'=>array('target_id'=>$entity->product_id));
+    commerce_product_save($entity);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
