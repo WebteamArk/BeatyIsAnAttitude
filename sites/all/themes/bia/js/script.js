@@ -49,6 +49,10 @@ Drupal.behaviors.selectWidget = {
 
 
 // Place your code here.
-
+$(document).ready(function(){
+	$('.menutrigger').click(function(){
+		$(this).toggleClass('active');
+	});
+});
 
 })(jQuery, Drupal, this, this.document);

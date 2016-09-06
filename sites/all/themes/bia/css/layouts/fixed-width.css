@@ -45,7 +45,7 @@ p {
 }
 
 #header {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -530,6 +530,12 @@ a.fancybutton,
 
 .region-header {
   width: calc(100% - 235px);
+  box-sizing: border-box;
+}
+
+#block-system-main-menu ul.menu {
+  margin: 0;
+  padding: 0;
 }
 
 #block-system-main-menu ul.menu li {
@@ -1395,6 +1401,72 @@ table.checkout-review {
   text-indent: -9999px;
 }
 
+
+@media screen and (max-device-width: 1024px), screen and (max-width: 1024px) {
+  #page {
+    overflow: hidden;
+  }
+  
+  .region-header {
+    padding-right: 60px;
+  }
+  
+  .menutrigger {
+    position: absolute;
+    right: 20px;
+    top: 24px;
+    background: url("../../images/burger-white.svg") center center no-repeat transparent;
+    bakground-size: 30px auto; 
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
+    z-index: 11;
+  }
+  
+  #block-system-main-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    display: block;
+    margin: 0;
+    overflow: hidden;
+  }
+  
+  #block-system-main-menu .content {
+    display: block;
+    position: relative;
+    margin-top: 5px;
+    right: -100%;
+    background: rgba(0, 0, 0, 0.6) none repeat scroll 0 0;
+    z-index: 10;
+    -webkit-transition: all 200ms; /* Safari */
+    transition: all 200ms;
+  }
+  
+  .menutrigger.active + #block-system-main-menu .content {
+    right: 0%;
+  }
+  
+  #block-system-main-menu ul.menu li {
+    display: block;
+    white-space: pre-wrap;
+    margin-bottom: 0.25em;
+    text-align: right;
+  }
+  
+  #block-system-main-menu ul.menu li a {
+    display: inline-block;
+  }
+  
+  
+  .block.nailiner1 .overlay .skipdown {
+    display: none;
+  }
+  
+  .block.nailiner1 .overlay {
+    padding-bottom: 75px;
+  }
+}
 
 
 
