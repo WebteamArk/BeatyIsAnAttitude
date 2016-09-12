@@ -48,12 +48,15 @@ p:last-child {
   margin-bottom: 0;
 }
 
-#header {
+.front #header {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   z-index: 10;
+}
+
+#header {
   background: rgba(0,0,0,0.3);
 }
 
@@ -67,7 +70,8 @@ a.fancybutton,
 .checkout-buttons .checkout-cancel:focus,
 .checkout-buttons .checkout-back:focus,
 .checkout-buttons .checkout-cancel:hover,
-.checkout-buttons .checkout-back:hover {
+.checkout-buttons .checkout-back:hover,
+.pager li > * {
   padding: 10px 20px;
   font-size: 12px;
   line-height: 17px;
@@ -198,6 +202,22 @@ a.fancybutton,
 .view.trending .slick-current .slide__content {
   box-shadow: 0 0 5px -1px black;
   border: 1px solid #95989a;
+}
+
+.view.trending .slick-slide,
+.view-variations .slick-slide {
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: opacity 200ms 200ms, visibility 0ms 400ms; /* Safari */
+  transition: opacity 200ms 200ms, visibility 0ms 400ms;
+}
+
+.view.trending .slick-active,
+.view-variations .slick-active {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition: opacity 200ms 1ms, visibility 0ms 0ms; /* Safari */
+  transition: opacity 200ms 1ms, visibility 0ms 0ms;
 }
 
 .view.trending .views-field-title {
@@ -893,16 +913,19 @@ table.checkout-review {
   padding-top: 75px;
 }
 
-article.view-mode-full,
+#content > article.view-mode-full,
 #content > .view {
   padding-top: 75px;
 }
 
 .webform-client-form {
-  max-width: 600px;
-  width: 100%;
-  padding: 0 20px;
-  display: inline-block;
+  max-width: 100%;
+  width: 650px;
+  padding: 0 25px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
 }
 
 .webform-client-form label {
@@ -957,7 +980,7 @@ article.view-mode-full,
 
 .whiteheader #header {
   background: white;
-  position: static;
+  position: relative;
 }
 
 .whiteheader #block-system-main-menu ul.menu li a.active {
@@ -1423,7 +1446,8 @@ article.view-mode-full,
   margin: 1em auto;
 }
 
-.view-variations .views-field-view-node a {
+.view-variations .views-field-view-node a,
+.view.trending .views-field-view-node a {
   position: absolute;
   z-index: 11;
   top: 0;
@@ -1485,12 +1509,25 @@ article.view-mode-full,
   background-color: #eef3f6;
 }
 
+.pager li.pager-current,
+.pager li.pager-item {
+  display: none;
+}
+
 
 @media screen and (max-device-width: 1024px), screen and (max-width: 1024px) {
   #logo,
   #logobk,  
   #header {
     height: 70px;
+  }
+  
+  #logo img,
+  #logobk img {
+    padding: 5px 0;
+    height: 70px;
+    box-sizing: border-box;
+    width: auto;
   }
   
   #block-commerce-cart-cart,
@@ -1728,7 +1765,6 @@ article.view-mode-full,
     padding-top: 75px;
   }
   
-  
 }
 
 @media screen and (max-device-width: 480px), screen and (max-width: 480px) {
@@ -1737,9 +1773,12 @@ article.view-mode-full,
     box-sizing: border-box;
   }
   
-  #logo {
+  #logo img,
+  #logobk img {
     padding: 5px 0;
-    width: 113px;
+    height: 40px;
+    box-sizing: border-box;
+    width: auto;
   }
   
   .region-header {
