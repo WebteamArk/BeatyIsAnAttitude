@@ -140,7 +140,7 @@ function bia_preprocess_html(&$variables, $hook) {
   //if (in_array('section-shop', $variables['classes_array'])) $variables['classes_array'][] = 'layout-shop';
   //if (in_array('section-cart', $variables['classes_array'])) $variables['classes_array'][] = 'layout-shop';
   //if (in_array('section-checkout', $variables['classes_array'])) $variables['classes_array'][] = 'layout-shop';
-
+  
 
   if (isset($node) && (isset($node->field_layout[LANGUAGE_NONE][0]['value']))) {
     $variables['classes_array'][]= 'layout-'.$node->field_layout[LANGUAGE_NONE][0]['value'];
@@ -154,6 +154,14 @@ function bia_preprocess_html(&$variables, $hook) {
     	break;
     	default:
     	;
+    	break;
+    }
+  }
+  
+  if ($variables['menu_item']['page_callback'] == 'views_page') {
+    switch ($variables['menu_item']['page_arguments'][0]) {
+    	case 'fashion_types':
+    	 $variables['classes_array'][] = 'whiteheader'; ;
     	break;
     }
   }
@@ -520,3 +528,20 @@ function bia_field__field_color($variables) {
   
   return bia_field($variables);
 }
+
+/* function bia_pager_first($variables){
+  $text = $variables['text'];
+  $element = $variables['element'];
+  $parameters = $variables['parameters'];
+  global $pager_page_array;
+  $output = '';
+
+  // If we are anywhere but the first page
+  if ($pager_page_array[$element] > 0) {
+    $output = theme('pager_link', array('text' => $text, 'page_new' => pager_load_array(0, $element, $pager_page_array), 'element' => $element, 'parameters' => $parameters));
+  } else {
+    $output = theme('pager_link', array('text' => $text, 'page_new' => pager_load_array(0, $element, $pager_page_array), 'element' => $element, 'parameters' => $parameters));
+  }
+
+  return $output;
+} */
