@@ -161,6 +161,7 @@ function bia_preprocess_html(&$variables, $hook) {
   if ($variables['menu_item']['page_callback'] == 'views_page') {
     switch ($variables['menu_item']['page_arguments'][0]) {
     	case 'fashion_types':
+    	case 'learn_from_the_best':
     	 $variables['classes_array'][] = 'whiteheader'; ;
     	break;
     }
