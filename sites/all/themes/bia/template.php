@@ -458,7 +458,7 @@ function bia_select_as_radios($vars) {
       }
       
       if (isset($term->field_svg_hover[LANGUAGE_NONE][0])) {
-        $row.= '<img class="nailiner-hover" src="'.file_create_url($term->field_svg[LANGUAGE_NONE][0]['uri']).'">';
+        $row.= '<img class="nailiner-hover" src="'.file_create_url($term->field_svg_hover[LANGUAGE_NONE][0]['uri']).'">';
       }
       $row.= '<span class="ntext">'.$term->name.'</span>'; 
       //dpm($term);
