@@ -15,13 +15,23 @@ function bia_form_system_theme_settings_alter(&$form, &$form_state, $form_id = N
 
   // Create the form using Forms API: http://api.drupal.org/api/7
 
-  /* -- Delete this line if you want to use this setting
-  $form['bia_example'] = array(
-    '#type'          => 'checkbox',
-    '#title'         => t('bia sample setting'),
-    '#default_value' => theme_get_setting('bia_example'),
-    '#description'   => t("This option doesn't do anything; it's just an example."),
+  //* -- Delete this line if you want to use this setting
+  $form['bia_colors'] = array(
+      '#type'          => 'fieldset',
+      '#title'         => t('Background header colors'),
   );
+  
+  $amount = 10;
+  $i = 0;
+
+  while ($i++<$amount) {
+    $form['bia_colors']['bia_color_'.$i] = array(
+        '#type' => 'jquery_colorpicker',
+        '#title' => t('Color').' '.$i,
+        '#cardinality' => '1',
+        '#default_value' => theme_get_setting('bia_color_'.$i),
+    );
+  }
   // */
 
   // Remove some of the base theme's settings.
