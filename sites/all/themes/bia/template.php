@@ -161,6 +161,7 @@ function bia_preprocess_html(&$variables, $hook) {
   if ($variables['menu_item']['page_callback'] == 'views_page') {
     switch ($variables['menu_item']['page_arguments'][0]) {
     	case 'fashion_types':
+    	case 'learn_from_the_best':
     	 $variables['classes_array'][] = 'whiteheader'; ;
     	break;
     }
@@ -457,7 +458,7 @@ function bia_select_as_radios($vars) {
       }
       
       if (isset($term->field_svg_hover[LANGUAGE_NONE][0])) {
-        $row.= '<img class="nailiner-hover" src="'.file_create_url($term->field_svg[LANGUAGE_NONE][0]['uri']).'">';
+        $row.= '<img class="nailiner-hover" src="'.file_create_url($term->field_svg_hover[LANGUAGE_NONE][0]['uri']).'">';
       }
       $row.= '<span class="ntext">'.$term->name.'</span>'; 
       //dpm($term);
