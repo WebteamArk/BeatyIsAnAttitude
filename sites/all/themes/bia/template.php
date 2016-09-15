@@ -178,9 +178,12 @@ function bia_preprocess_html(&$variables, $hook) {
  * @param $hook
  *   The name of the template being rendered ("page" in this case.)
  */
-/* -- Delete this line if you want to use this function
+//* -- Delete this line if you want to use this function
 function bia_preprocess_page(&$variables, $hook) {
-  $variables['sample_variable'] = t('Lorem ipsum.');
+  $bia_colors = array();
+  $i = 0;
+  while ($color = theme_get_setting('bia_color_'.++$i)) $bia_colors[] = '#'.$color;
+  if (count($bia_colors)) drupal_add_js(array('bia_colors'=>$bia_colors),'setting'); 
 }
 // */
 

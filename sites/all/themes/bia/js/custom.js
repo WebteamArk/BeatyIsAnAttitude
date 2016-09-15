@@ -8,11 +8,15 @@
 		//Arrays for the colors for the background and gradient
 		var pagecolors = ["#ff0000", "#ffff00", "#0000ff","#00ff00"];
 		
+		if (typeof(Drupal.settings.bia_colors) == 'object') {
+			pagecolors = Drupal.settings.bia_colors; 
+		}
+		
 		//Percentage how much the color needs to be changed, negative is darker, positive lighter
 		$colorChangePercantage = -10;
 
 		//Creating an index for the lenght of the array
-		$index = pagecolors.length -1;
+		$index = 0;
 
 		//Variables for the fading time in seconds
 		$fadetime = 8000;
@@ -79,11 +83,11 @@
 			$gradiantcolor = alterColorIntensity($pageColor,$colorChangePercantage);
 
 			//Resetting the index if it hits the end
-			if ($index > 0 ) {
-				$index -= 1;
+			if ($index < pagecolors.length -1 ) {
+				$index += 1;
 			}
 			else{
-				$index = pagecolors.length -1;
+				$index = 0;
 			}			
 			if ($('#Laag_1').length) {
 				//background color of svg
