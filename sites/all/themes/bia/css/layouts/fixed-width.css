@@ -1912,7 +1912,22 @@ table.checkout-review {
   }
   
   .view-finishblock .views-field-description {
-    display: none;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .view-finishblock .views-row {
+    cursor: pointer;
+  }
+  
+  .view-finishblock .views-field-description .field-content {
+    line-height: 0;
+    -webkit-transition: all 200ms; /* Safari */
+    transition: all 200ms;
+  }
+  
+  .view-finishblock .views-row.active .views-field-description .field-content {
+    line-height: inherit;
   }
   
   #content #block-views-faq-block-1 {
