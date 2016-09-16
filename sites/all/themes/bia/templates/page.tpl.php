@@ -69,7 +69,7 @@
  * @see template_process()
  */
 
-$logo_arr = explode(".", strtolower($logo));
+$logo_arr = explode(".", $logo);
 $ext = array_pop($logo_arr);
 $logobk = implode(".", $logo_arr).'bk.'.$ext;
 
