@@ -2207,14 +2207,14 @@ table.checkout-review {
     border: none;
     box-shadow: none;
     background-color: transparent;
-    opacity: 1;
-    visibility: visible;
-  }
-  
-  .view-variations .slide__content,
-  .view-variations .slide__content:hover {
     opacity: 0;
     visibility: hidden;
+  }
+  
+  .view-variations .slick-current .slide__content,
+  .view-variations .slick-current .slide__content:hover {
+    opacity: 1;
+    visibility: visible;
   }
   
   .view-variations .slide__content:hover .views-field-php .color,
@@ -2227,6 +2227,12 @@ table.checkout-review {
   .view.trending .slide__content {
     opacity: 0;
     visibility: hidden;
+  }
+  
+  .view.trending .slick-current .slide__content,
+  .view.trending .slick-current .slide__content:hover {
+    opacity: 1;
+    visibility: visible;
   }
   
   .slick-prev, .slick-next {
