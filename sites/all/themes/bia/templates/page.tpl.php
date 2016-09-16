@@ -116,8 +116,9 @@ $logobk = implode(".", $logo_arr).'bk.'.$ext;
         )); ?>
       </nav>
     <?php endif; ?>
-
+    <div class="menutrigger" tabindex="0"></div>
     <?php print render($page['header']); ?>
+    <?php print render($page['header_2']); ?>
     </div>
   </header>
   <?php print $messages; ?>

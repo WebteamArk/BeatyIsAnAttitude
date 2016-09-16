@@ -92,6 +92,7 @@ scripts[] = js/custom.js
 ;   <?php print $header_top; ?>
 
 regions[header]         = Header
+regions[header_2]       = Header 2
 regions[navigation]     = Navigation bar
 regions[highlighted]    = Highlighted
 regions[help]           = Help
