@@ -53,6 +53,11 @@ $(document).ready(function(){
 	$('.menutrigger').click(function(){
 		$(this).toggleClass('active');
 	});
+	
+	$('.view-finishblock .views-row').click(function(){
+		$(this).toggleClass('active');
+	});
+	
 });
 
 })(jQuery, Drupal, this, this.document);

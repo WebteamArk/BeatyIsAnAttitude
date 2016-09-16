@@ -423,7 +423,7 @@ function bia_select($variables) {
 
 function bia_textfield($variables){
   $element = $variables['element'];
-  if (!isset($variables['element']['#attributes']['placeholder'])) $variables['element']['#attributes']['placeholder'] = $variables['element']['#title'];
+  if (isset($variables['element']['#title']) && !isset($variables['element']['#attributes']['placeholder'])) $variables['element']['#attributes']['placeholder'] = $variables['element']['#title'];
   return theme_textfield($variables);
 }
 

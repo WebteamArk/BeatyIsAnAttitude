@@ -48,6 +48,8 @@ base theme  = zen
 stylesheets[all][] = system.menus.css
 
 ; Then we add our own stylesheets.
+
+stylesheets[all][] = css/slick.theme.css
 stylesheets[all][] = css/normalize.css
 stylesheets[all][] = css/layouts/fixed-width.css
 stylesheets[all][] = css/tabs.css
@@ -92,6 +94,7 @@ scripts[] = js/custom.js
 ;   <?php print $header_top; ?>
 
 regions[header]         = Header
+regions[header_2]       = Header 2
 regions[navigation]     = Navigation bar
 regions[highlighted]    = Highlighted
 regions[help]           = Help

@@ -69,7 +69,7 @@
  * @see template_process()
  */
 
-$logo_arr = explode(".", strtolower($logo));
+$logo_arr = explode(".", $logo);
 $ext = array_pop($logo_arr);
 $logobk = implode(".", $logo_arr).'bk.'.$ext;
 
@@ -116,8 +116,9 @@ $logobk = implode(".", $logo_arr).'bk.'.$ext;
         )); ?>
       </nav>
     <?php endif; ?>
-
+    <div class="menutrigger" tabindex="0"></div>
     <?php print render($page['header']); ?>
+    <?php print render($page['header_2']); ?>
     </div>
   </header>
   <?php print $messages; ?>
