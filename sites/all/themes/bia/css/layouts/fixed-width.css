@@ -174,6 +174,8 @@ a.fancybutton,
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+  padding-left: 5%;
+  padding-right: 5%;
 } 
 
 .node-block1 .field-name-field-textline {
@@ -432,11 +434,13 @@ a.fancybutton,
   z-index: 5;
 }
 
-.form-type-radio.form-item-type:hover img.nailiner {
+.form-type-radio.form-item-type:hover img.nailiner,
+.form-type-radio.form-item-type .form-radio:checked ~ img.nailiner {
   opacity: 0;
 }
 
-.form-type-radio.form-item-type:hover img.nailiner-hover {
+.form-type-radio.form-item-type:hover img.nailiner-hover,
+.form-type-radio.form-item-type .form-radio:checked ~ img.nailiner-hover {
   opacity: 1;
 }
 
@@ -967,7 +971,8 @@ table.checkout-review {
   padding-top: 75px;
 }
 
-.webform-client-form {
+.webform-client-form,
+#content > article.node > .webform-client-form {
   max-width: 100%;
   width: 650px;
   padding: 0 25px;
@@ -1678,9 +1683,15 @@ table.checkout-review {
     margin-top: 0px;
   }
   
-  .header-inside > * {
+  .header-inside > *,
+  .whiteheader .header-inside > * {
     display: block;
     text-align: left;
+    color: white;
+  }
+  
+  .whiteheader #block-system-main-menu ul.menu li a.active {
+    border-color: white;
   }
   
   .header-inside .block-title {
@@ -1838,10 +1849,14 @@ table.checkout-review {
   
   #block-block-1 #pen {
     transform: matrix(0.5, 0, 0, 0.5, 698, 531.5) !important;
+    -ms-transform: matrix(0.5, 0, 0, 0.5, 698, 531.5) !important;
+    -webkit-transform: matrix(0.5, 0, 0, 0.5, 698, 531.5) !important;
   }
   
   #block-block-1 #text {
     transform: matrix(0.4999, 0, 0, 0.5, 590, 473.75) !important;
+    -ms-transform: matrix(0.4999, 0, 0, 0.5, 590, 473.75) !important;
+    -webkit-transform: matrix(0.4999, 0, 0, 0.5, 590, 473.75) !important;
   }
   
   .node-product > .view--product-pictures {
@@ -1930,8 +1945,8 @@ table.checkout-review {
   
   .view-finishblock .views-field-description .field-content {
     line-height: 0;
-    -webkit-transition: all 200ms; /* Safari */
-    transition: all 200ms;
+    -webkit-transition: all 500ms; /* Safari */
+    transition: all 500ms;
   }
   
   .view-finishblock .views-row.active .views-field-description .field-content {
