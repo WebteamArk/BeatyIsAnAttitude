@@ -342,6 +342,20 @@ function bia_field__field_layout($variables){
   return $output;
 }
 
+function bia_field__field_reverse_columns_flow_on_mo($variables){
+
+  $output = '';
+  foreach ($variables['items'] as $delta => $item) {
+    $variables['classes'] .= ' flexrow-'.drupal_render($item).' ';
+  }
+  $output .= '';
+
+  // Render the top-level DIV.
+  $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '></div>';
+
+  return $output;
+}
+
 function bia_field__field_youtube($variables){
   foreach ($variables['element']['#items'] as $id=>$item) {
     $variables['items'][$id]['#markup'] ='<iframe width="640" height="360" src="https://www.youtube.com/embed/'.$item['safe_value'].'" frameborder="0" allowfullscreen></iframe>'; 
