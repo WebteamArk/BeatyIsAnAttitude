@@ -165,6 +165,13 @@ function bia_preprocess_html(&$variables, $hook) {
     	 $variables['classes_array'][] = 'whiteheader'; ;
     	break;
     }
+    
+    switch ($variables['menu_item']['page_arguments'][0]) {
+    	case 'product_listing_nailiners':
+    	  $variables['classes_array'][] = 'product-listings'; ;
+    	  break;
+    }
+    
   }
   
 }
@@ -354,6 +361,7 @@ function bia_field__field_reverse_columns_flow_on_mo($variables){
   $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '></div>';
 
   return $output;
+  
 }
 
 function bia_field__field_youtube($variables){

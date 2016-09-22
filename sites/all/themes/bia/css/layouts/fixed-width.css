@@ -49,7 +49,7 @@ p:last-child {
 }
 
 .front #header,
-.page-nailiners #header,
+.product-listings #header,
 .node-type-product #header,
 .page-products #header {
   position: absolute;
@@ -60,7 +60,7 @@ p:last-child {
 }
 
 .front #content > .contextual-links-wrapper,
-.page-nailiners #content > .contextual-links-wrapper,
+.product-listings #content > .contextual-links-wrapper,
 .node-type-product #content > .contextual-links-wrapper,
 .page-products #content > .contextual-links-wrapper {
   margin-top: 85px;
@@ -132,6 +132,15 @@ a.fancybutton,
 .block.nailiner1 .overlay .skipdown {
   margin: 75px 0 55px;  
 }
+
+.block.liquids1 .content {
+  padding-top: 29.1667%;
+  background: url("../../images/liquids-header.png") center center no-repeat transparent;
+  background-size: cover;
+}
+
+liquids-header.png
+
 
 .node-block1 .content {
   display: flex;
@@ -393,15 +402,22 @@ a.fancybutton,
 .view-product-listing-nailiners .views-row {
   box-shadow: 0 0 5px -1px rgba(0,0,0,0);
   display: inline-block;
-  width: 220px;
+  width: 300px;
   margin: 10px;
-  height: 210px;
+  height: 315px;
   text-align: center;
   box-sizing: border-box;
-  padding: 20px;
+  padding: 50px 45px;
   vertical-align: top;
   -webkit-transition: box-shadow 200ms; /* Safari */
   transition: box-shadow 200ms;
+  max-width: 100%;
+}
+
+.view-product-listing-nailiners.view-display-id-page .views-row {
+  width: 220px;
+  height: 210px;
+  padding: 20px;
 }
 
 .view-product-listing-nailiners .views-row:hover {
@@ -495,7 +511,8 @@ a.fancybutton,
   display: none;
 }
 
-.view-product-listing-nailiners .views-field-title {
+.view-product-listing-nailiners .views-field-title,
+.view-product-listing-nailiners .views-field-field-product-type {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 3px;
@@ -540,18 +557,19 @@ a.fancybutton,
 
 #edit-field-color-type-tid-wrapper,
 #edit-field-fashion-type-tid-wrapper,
-#edit-field-main-color-value-wrapper {
+#edit-field-main-color-value-wrapper,
+#edit-field-liquid-type-tid-wrapper {
   width: calc(33.33% - 20px);
   padding: 5px;
   text-align: left;
 }
 
-#views-exposed-form-product-listing-nailiners-page .select-widget {
+.view-product-listing-nailiners .select-widget {
   width: 100%;
   display: block;
 }
 
-#views-exposed-form-product-listing-nailiners-page .select-text {
+.view-product-listing-nailiners .select-text {
   text-align: left;
 }
 
@@ -1342,16 +1360,26 @@ table.checkout-review {
   margin-bottom: 30px;
 }
 
-.commerce-price-savings-formatter-prices tr td {
-  font-size: inherit;
+.field-name-commerce-price .field-item {
+  margin: 1.5em 0;
+}
+
+.commerce-price-savings-formatter-prices tr td,
+.field-name-commerce-price .field-item  {
   line-height: inherit;
   padding: 0;
   font-size: 25px;
   padding-right: 10px;
+  font-weight: bold;
+  color: #323232;
 }
 
 .commerce-price-savings-formatter-price {
   font-weight: 700;
+}
+
+.commerce-price-savings-formatter-list .price-amount {
+  font-weight: normal;  
 }
 
 .commerce-price-savings-formatter-price .price-amount {
@@ -1394,7 +1422,8 @@ table.checkout-review {
 .commerce-product-field-field-fashion-type,
 .commerce-product-field-field-color-type,
 .commerce-product-field-field-main-color,
-.commerce-product-field-field-amount {
+.commerce-product-field-field-amount,
+.commerce-product-field-field-liquid-type {
   font-size: 16px;
   font-weight: 500;
   padding-bottom: 10px;
@@ -1616,6 +1645,7 @@ table.checkout-review {
   padding-bottom: 75px;
 }
 
+#content > .view-products .view-content,
 .view-products .view-content {
   padding-top: 65px;
   max-width: 600px;
@@ -2263,6 +2293,9 @@ table.checkout-review {
     padding-top: 0;
   }
   
+  
+  
+  
 }
 
 @media screen and (max-device-width: 480px), screen and (max-width: 480px) {
@@ -2537,6 +2570,21 @@ table.checkout-review {
   #content > .view-products {
     padding-top: 50px;
     background-image: none;
+  }
+  
+  #edit-field-color-type-tid-wrapper,
+  #edit-field-fashion-type-tid-wrapper,
+  #edit-field-main-color-value-wrapper,
+  #edit-field-liquid-type-tid-wrapper {
+    width: 100%;
+    padding: 5px;
+    text-align: left;
+    margin: auto;
+  }
+  
+  .view-product-listing-nailiners .views-row  {
+    margin-left: 0;
+    margin-right: 0;
   }
   
 }
