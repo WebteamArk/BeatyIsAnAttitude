@@ -86,7 +86,7 @@ a.fancybutton,
   padding: 10px 20px;
   font-size: 12px;
   line-height: 17px;
-  box-shadow: 0 0 5px -1px black;
+  box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.16);
   background: white;
   font-weight: bold;
   text-transform: uppercase;
@@ -139,9 +139,6 @@ a.fancybutton,
   background-size: cover;
 }
 
-liquids-header.png
-
-
 .node-block1 .content {
   display: flex;
   align-items: center;
@@ -193,7 +190,7 @@ liquids-header.png
   margin-right: auto;
   padding-left: 5%;
   padding-right: 5%;
-} 
+}
 
 .node-block1 .field-name-field-textline {
   color: black;
@@ -218,7 +215,7 @@ liquids-header.png
   text-align: center;
   -webkit-transition: all 200ms; /* Safari */
   transition: all 200ms;
-  box-shadow: 0 0 5px -1px transparent;
+  box-shadow: 0px 0px 5px 2px rgba(0,0,0,0);
   border: 1px solid transparent;
 }
 
@@ -231,7 +228,7 @@ liquids-header.png
 }
 
 .view.trending .slide__content:hover {
-  box-shadow: 0 0 5px -1px black;
+  box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.16);
   border: 1px solid #95989a;
 }
 
@@ -270,6 +267,7 @@ liquids-header.png
 
 .more-link {
   text-align: center;
+  margin-top: 45px;
 }
 
 .view-biaa-block .view-content {
@@ -350,6 +348,7 @@ liquids-header.png
   display: none;
 }
 
+
 #block-views-faq-block-1 .view {
   font-weight: bold;
   display: flex;
@@ -372,6 +371,30 @@ liquids-header.png
   max-width: 600px;
   font-size: 12px;
   text-transform: uppercase;
+  background: rgba(255,255,255,0.7);
+  -webkit-transition: all 200ms; /* Safari */
+  transition: all 200ms;
+  cursor: pointer;
+}
+
+#block-views-faq-block-1 .views-field-field-description {
+  font-weight: normal;
+  text-transform: none;
+  margin-top: 0px;
+  line-height: 0;
+  -webkit-transition: all 200ms; /* Safari */
+  transition: all 200ms;
+  overflow: hidden;
+}
+
+#block-views-faq-block-1 .views-row.active .views-field-field-description {
+  line-height: 1.1;
+  margin-top: 15px;
+}
+
+
+#block-views-faq-block-1 .views-row:hover {
+  background: rgba(255,255,255,1);
 }
 
 #page-title-outer {
@@ -400,7 +423,7 @@ liquids-header.png
 }
 
 .view-product-listing-nailiners .views-row {
-  box-shadow: 0 0 5px -1px rgba(0,0,0,0);
+  box-shadow: 0px 0px 5px 2px rgba(0,0,0,0);
   display: inline-block;
   width: 300px;
   margin: 10px;
@@ -421,7 +444,7 @@ liquids-header.png
 }
 
 .view-product-listing-nailiners .views-row:hover {
-  box-shadow: 0 0 5px -1px rgba(0,0,0,1);
+  box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.16);
 }
 
 #edit-type.bef-select-as-radios {
@@ -484,14 +507,14 @@ liquids-header.png
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 0px -1px rgba(0,0,0,0);
+  box-shadow: 0px 0px 5px 2px rgba(0,0,0,0);
   -webkit-transition: box-shadow 200ms; /* Safari */
   transition: box-shadow 200ms;
 }
 
 .form-type-radio.form-item-type:hover .ntext,
 .form-type-radio.form-item-type :checked ~ .ntext {
-  box-shadow: 0 0 5px -1px rgba(0,0,0,255);
+  box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.16);
 }
 
 .form-type-radio.form-item-type label {
@@ -581,7 +604,7 @@ liquids-header.png
   font-size: 0px;
   line-height: 0;
   text-align: right;
-  padding: 0 10px;
+  padding: 0 25px;
   font-size: 0px;
 }
 
@@ -679,7 +702,7 @@ liquids-header.png
 .cart-empty-block {
   background: #333333 none repeat scroll 0 0;
   border-radius: 5px;
-  box-shadow: 2px 2px 5px 1px black;
+  box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.16);
   display: none;
   margin-top: -1px;
   padding: 10px;
@@ -891,7 +914,7 @@ table.checkout-review {
 .form-textarea  {
   background: white none repeat scroll 0 0;
   border: medium none;
-  box-shadow: 0 0 5px -1px black;
+  box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.16);
   color: black;
   font-size: 12px;
   font-weight: bold;
@@ -908,27 +931,44 @@ table.checkout-review {
 
 .form-text::-webkit-input-placeholder {
   font-style: italic;
-  opacity: 0.5;
+  opacity: 1;
+  color: #1A1717;
+  text-transform: lowercase;
+  font-size: 12px;
+  font-weight: normal;
 }
 
 .form-text:-moz-placeholder { /* Firefox 18- */
   font-style: italic;
-  opacity: 0.5;  
+  opacity: 1;
+  color: #1A1717;
+  text-transform: lowercase;
+  font-size: 12px;
+  font-weight: normal;
 }
 
 .form-text::-moz-placeholder {  /* Firefox 19+ */
   font-style: italic;
-  opacity: 0.5;
+  opacity: 1;
+  color: #1A1717;
+  text-transform: lowercase;
+  font-size: 12px;
+  font-weight: normal;
 }
 
 .form-text:-ms-input-placeholder {  
   font-style: italic;
-  opacity: 0.5;  
+  opacity: 1;
+  color: #1A1717;
+  text-transform: lowercase;
+  font-size: 12px;
+  font-weight: normal;
 }
 
 .yesilike .block-title {
   font-weight: normal;
-  color: #d9d9d9; 
+  color: #d9d9d9;
+  letter-spacing: 5px; 
 }
 
 .yesilike .content {
@@ -944,6 +984,7 @@ table.checkout-review {
   padding-bottom: 20px;
 }
 
+#content #block-menu-menu-footer-menu .content,
 #block-menu-menu-footer-menu .content {
   padding-top: 30px;
   max-width: 492px;
@@ -970,9 +1011,9 @@ table.checkout-review {
   color: #d9d9d9;
   padding: 2px 0px;
   margin: 0px 8px;
+  font-size: 12px;
 }
 
-#block-menu-menu-footer-menu ul.menu li a.active,
 #block-menu-menu-footer-menu ul.menu li a:hover {
   border-bottom: 1px solid #d9d9d9;
 }
@@ -1395,6 +1436,7 @@ table.checkout-review {
 }
 
 .taxonomy-term .field-name-field-svg,
+.taxonomy-term .field-name-field-svg-hover,
 .taxonomy-term.vocabulary-nailiners .field-name-field-title {
   display: inline-block;
   vertical-align: middle;
@@ -1410,7 +1452,8 @@ table.checkout-review {
   text-transform: uppercase;
 }
 
-.taxonomy-term .field-name-field-svg img {
+.taxonomy-term .field-name-field-svg img,
+.taxonomy-term .field-name-field-svg-hover img {
   width: 60px;
 }
 
@@ -1466,7 +1509,7 @@ table.checkout-review {
   text-align: center;
   -webkit-transition: all 200ms; /* Safari */
   transition: all 200ms;
-  box-shadow: 0 0 5px -1px transparent;
+  box-shadow: 0px 0px 5px 2px rgba(0,0,0,0);
   border: 1px solid transparent;
   position: relative;
   background-color: rgba(255,255,255,0);
@@ -1474,7 +1517,7 @@ table.checkout-review {
 }
 
 .view-variations .slide__content:hover {
-  box-shadow: 0 0 5px -1px black;
+  box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.16);
   border: 1px solid #95989a;
   background-color: rgba(255,255,255,1);
 }
@@ -1731,7 +1774,7 @@ table.checkout-review {
   
   .region-header-2 {
     width: calc(100% - 235px);
-    padding-right: 60px;
+    padding-right: 40px;
   }
   
   .menutrigger {
@@ -1785,6 +1828,7 @@ table.checkout-review {
     width: 100%;
     box-sizing: border-box;
     padding-top: 5px;
+    padding-left: 5px;
   }
   
   .menutrigger.active + .region-header .header-inside {
@@ -2556,7 +2600,7 @@ table.checkout-review {
   }
   
   .view-products .view-content {
-    width: 
+    width: 100%;
   }
   
   .view-products .views-row {

@@ -54,9 +54,11 @@ $(document).ready(function(){
 		$(this).toggleClass('active');
 	});
 	
-	$('.view-finishblock .views-row').click(function(){
+	$('.view-finishblock .views-row, #block-views-faq-block-1 .views-row').click(function(){
 		$(this).toggleClass('active');
 	});
+	
+	
 	
 });
 
