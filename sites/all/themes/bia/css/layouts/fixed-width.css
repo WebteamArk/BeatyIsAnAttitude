@@ -1696,10 +1696,11 @@ table.checkout-review {
 #content > .view-products .view-content,
 .view-products .view-content {
   padding-top: 65px;
-  max-width: 600px;
+  max-width: calc(600px + 10%);
   line-height: 0;
   font-size: 0;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .view-products .views-row {
@@ -1707,6 +1708,7 @@ table.checkout-review {
   width: 300px;
   display: inline-block;
   vertical-align: top;
+  line-height: 1.2;
 }
 
 .view-products .views-row .views-field-php .bgcolor,
@@ -1739,6 +1741,7 @@ table.checkout-review {
   color: white;
   font-weight: bold;
   text-transform: uppercase;
+  flex-wrap: wrap;
 }
 
 .view-products .views-row .views-field-field-link a  {
