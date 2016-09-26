@@ -1553,7 +1553,7 @@ table.checkout-review {
 .view-variations .views-field-field-nailiner-type .taxonomy-term img {
   border-radius: 180px;
   border: 8px solid white;
-  background-color: #eef3f6;
+  background-color: #ffffff;
   box-sizing: border-box;
 }
 
@@ -1561,6 +1561,10 @@ table.checkout-review {
 .view-variations .slide__content:hover .views-field-field-color .jquery_colorpicker_color_display,
 .view-variations .slide__content:hover .views-field-field-nailiner-type .taxonomy-term img {
   border-color: #eef3f6;
+}
+
+.view-variations .slide__content:hover .views-field-field-nailiner-type .taxonomy-term img {
+  background-color: #eef3f6;
 }
 
 
