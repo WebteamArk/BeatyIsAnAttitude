@@ -578,13 +578,14 @@ a.fancybutton,
   padding: 0;
 }
 
-#edit-field-color-type-tid-wrapper,
-#edit-field-fashion-type-tid-wrapper,
-#edit-field-main-color-value-wrapper,
-#edit-field-liquid-type-tid-wrapper {
+.view-product-listing-nailiners .views-exposed-form .views-exposed-widget {
   width: calc(33.33% - 20px);
   padding: 5px;
   text-align: left;
+}
+
+.view-product-listing-nailiners .views-exposed-form .views-exposed-widget.views-submit-button {
+  display: none;
 }
 
 .view-product-listing-nailiners .select-widget {
@@ -2616,10 +2617,7 @@ table.checkout-review {
     background-image: none;
   }
   
-  #edit-field-color-type-tid-wrapper,
-  #edit-field-fashion-type-tid-wrapper,
-  #edit-field-main-color-value-wrapper,
-  #edit-field-liquid-type-tid-wrapper {
+  .view-product-listing-nailiners .views-exposed-form .views-exposed-widget {
     width: 100%;
     padding: 5px;
     text-align: left;
