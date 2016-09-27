@@ -165,6 +165,13 @@ function bia_preprocess_html(&$variables, $hook) {
     	 $variables['classes_array'][] = 'whiteheader'; ;
     	break;
     }
+    
+    switch ($variables['menu_item']['page_arguments'][0]) {
+    	case 'product_listing_nailiners':
+    	  $variables['classes_array'][] = 'product-listings'; ;
+    	  break;
+    }
+    
   }
   
 }
@@ -340,6 +347,21 @@ function bia_field__field_layout($variables){
   $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
   
   return $output;
+}
+
+function bia_field__field_reverse_columns_flow_on_mo($variables){
+
+  $output = '';
+  foreach ($variables['items'] as $delta => $item) {
+    $variables['classes'] .= ' flexrow-'.drupal_render($item).' ';
+  }
+  $output .= '';
+
+  // Render the top-level DIV.
+  $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '></div>';
+
+  return $output;
+  
 }
 
 function bia_field__field_youtube($variables){
