@@ -166,7 +166,8 @@ a.fancybutton,
 
 .block-title,
 .node > .field-name-field-title,
-#content > .view .view-header h2 {
+#content > .view .view-header h2,
+#page-title {
   text-transform: uppercase;
   font-weight: bold;
   letter-spacing: 3px;
@@ -178,13 +179,15 @@ a.fancybutton,
 
 #content .block {
   margin:0;
-  padding: 75px 0 55px;
+  padding-top: 75px;
+  padding-bottom: 55px;
 }
 
 #content > .block > .content,
 #content #block-views-faq-block-1,
 #content > .view > .view-content,
-#content > article.node > * {
+#content > article.node > *,
+#split-blocks {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
@@ -1035,7 +1038,8 @@ table.checkout-review {
 }
 
 #content > article.view-mode-full,
-#content > .view {
+#content > .view,
+#page-title-inner {
   padding-top: 75px;
 }
 
@@ -1499,7 +1503,8 @@ table.checkout-review {
 .block.color1,
 #content .block.color1 {
   background: #eef3f6;
-  padding: 55px 0;
+  padding-top: 55px;
+  padding-bottom: 55px;
 }
 
 .view-variations .slide__content {
@@ -1748,6 +1753,257 @@ table.checkout-review {
   text-indent: -9999px;
 }
 
+
+form .form-item label {
+  font-style: italic;
+  font-size: 12px;
+  font-weight: normal;
+  margin-bottom: 0.5em;
+}
+
+.page-user:not(.page-user-register) #page-title-outer {
+  display: block;
+}
+
+#content > #user-login,
+#content > #user-register-form {
+  display: none;
+}
+
+#split-blocks {
+  display: flex;
+  align-items: stretch;
+  align-content: stretch;
+}
+
+#split-blocks > * {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  align-content: stretch;
+  width: 50%;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 12px;
+}
+
+#split-blocks > *:first-child {
+  padding-left: 10px;
+}
+
+#split-blocks > *:last-child {
+  padding-right: 0px;
+}
+
+#split-blocks > * > * {
+  flex-grow: 1;
+}
+
+#split-blocks > * > * {
+  padding-left: 15%;
+  padding-right: 15%;
+}
+
+#split-blocks .block-title {
+  text-align: left;
+  margin-bottom: 30px;
+  font-size: 20px;
+  font-weight: normal;
+  letter-spacing: 0px;
+  text-transform: none;
+}
+
+.item-list ul {
+  margin: 0px;
+  padding: 0px;
+  display: block;
+}
+
+.item-list ul li {
+  margin: 0px;
+  padding: 0px;
+  display: block;
+}
+
+#block-user-login .item-list ul li.first {
+  display: none;
+  
+}
+
+#block-user-login .item-list ul {
+  margin: 25px 0;
+  color: #95989A;
+}
+
+#block-user-login .item-list ul li a {
+  border-bottom: 1px solid #95989A; 
+}
+
+.page-user-register .block form {
+  width: 90%;
+  max-width: 600px;
+  margin: auto;
+}
+
+.page-user-register .block form .form-actions {
+  text-align: center;
+}
+
+.page-user-register .block form .form-actions > * {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+form .form-item .description {
+  color: #95989A;
+  font-size: 12px;
+  margin-top: 0.5em;
+}
+
+.password-strength {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  width: auto;
+}
+
+div.password-confirm {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: 0;
+  width: auto;
+  font-size: 0px;
+}
+
+div.password-confirm .ok {
+  background: #47c965;
+}
+
+div.password-confirm .error {
+  background: #8c2e0b;
+}
+
+div.password-confirm .ok,
+div.password-confirm .error,
+.password-indicator {
+  height: 3px;
+  display: block;
+}
+
+.password-strength .password-strength-title,
+.password-strength .password-strength-text,
+.password-suggestions {
+  display: none !important;
+}
+
+input.password-confirm, input.password-field {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.form-type-password-confirm .password-parent,
+.form-type-password-confirm .confirm-parent {
+  width: 100%;
+  position: relative;
+}
+
+.form-type-password-confirm .password-parent {
+  margin-bottom: 1.5em;
+}
+
+span.form-required {
+  color: inherit;
+}
+
+.view-commerce-cart-form {
+  background: #eef3f6;
+}
+
+.view-commerce-cart-form .views-table,
+.view-commerce-cart-form .views-table tbody,
+.view-commerce-cart-form .views-table thead,
+.view-commerce-cart-form .views-table th.views-field,
+.view-commerce-cart-form .views-table tr,
+.view-commerce-cart-form .views-table td.views-field {
+  border: none;
+  background: none;
+  vertical-align: middle;
+}
+
+.view-commerce-cart-form .views-table th.views-field,
+.view-commerce-cart-form .views-table td.views-field {
+  padding: 5px;
+}
+
+.view-commerce-cart-form .views-table th.views-field:not(.views-field-title),
+.view-commerce-cart-form .views-table td.views-field:not(.views-field-title) {
+  text-align: center;
+}
+
+
+
+
+table .views-field-field-product-pictures {
+  width: 190px;
+}
+
+.view-commerce-cart-form .commerce-price-savings-formatter-prices,
+.view-commerce-cart-form .commerce-price-savings-formatter-prices tbody,
+.view-commerce-cart-form .commerce-price-savings-formatter-prices tr,
+.view-commerce-cart-form .commerce-price-savings-formatter-prices tr td {
+  font-size: inherit;
+  display: block;
+  padding: 0px;
+}
+
+.view-commerce-cart-form .commerce-price-savings-formatter-prices tr td {
+  padding: 0.25em 0px;
+}
+
+.views-field-edit-quantity .form-text {
+  width: 4em;
+}
+
+.views-field-edit-delete .delete-line-item {
+  height: 30px;
+  width: 30px;
+  box-shadow: none;
+  text-indent: -9999px;
+  overflow: hidden;
+  background: url("../../images/x.png") center center no-repeat transparent;
+}
+
+.view-commerce-cart-form .views-table th.views-field-title,
+.view-commerce-cart-form .views-table td.views-field-title {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.view-commerce-cart-form .views-field-title {
+  letter-spacing: 2px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 700;
+  line-height: 15px;
+}
+
+.view-commerce-cart-form .views-field-title a {
+  margin: 2em 0 0;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #95989A;
+  border-bottom: 1px solid #95989A;
+  font-weight: normal;
+  display: inline-block; 
+}
+
+.view-commerce-cart-form .views-field-field-product-pictures img {
+  display: block;
+}
 
 
 @media screen and (max-device-width: 1024px), screen and (max-width: 1024px) {
@@ -2344,10 +2600,6 @@ table.checkout-review {
   .view-products .view-content {
     padding-top: 0;
   }
-  
-  
-  
-  
 }
 
 @media screen and (max-device-width: 480px), screen and (max-width: 480px) {

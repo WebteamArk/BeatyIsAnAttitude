@@ -53,6 +53,26 @@ function biamod_form_alter(&$form, &$form_state, $form_id) {
   if($form_id == 'commerce_product_ui_product_form' && isset($form['field_nailiner_type'])) {
     unset($form['field_nailiner_type']);
   }
+  
+  if ($form_id == 'i18n_string_translate_page_form') {
+    // Loop all strings.
+    foreach ( $form ['strings'] ['all'] as $name => $field ) {
+      // The field for [ block title / vocabulary name / vocabulary description / term name ] are textfields in ori language,
+      // but textareas when translating: change these to textfields.
+      if (preg_match ( '/blocks:block:[0-9]+:title/i', $name ) || preg_match ( '/taxonomy:(vocabulary|term):[0-9]+:name/i', $name ) || preg_match ( '/taxonomy:vocabulary:[0-9]+:description/i', $name )) {
+        $form ['strings'] ['all'] [$name] ['#type'] = 'textfield';
+      }      // Change textarea to text_format and overwrite description which is already auto included in text_format fields.
+      elseif (preg_match ( '/blocks:block:[0-9]+:body/i', $name ) || preg_match ( '/taxonomy:term:[0-9]+:description/i', $name )) {
+        $form ['strings'] ['all'] [$name] ['#type'] = 'text_format';
+        $form ['strings'] ['all'] [$name] ['#description'] = '';
+      }
+    }
+  
+    // Add submit function.
+    $form ['#submit'] = array_merge ( array (
+        '_biamod_form_submit'
+    ), $form ['#submit'] );
+  }
 }
 
 function biamod_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
@@ -91,7 +111,14 @@ function biamod_update_solo_nailiners($entity) {
   }
 }
 
-
+function _biamod_form_submit($form, &$form_state) {
+  // Remove wysiwyg format because i18n cant handle it.
+  foreach ( $form_state ['values'] ['strings'] as $name => $field ) {
+    if (preg_match ( '/blocks:block:[0-9]+:body/i', $name ) || preg_match ( '/taxonomy:term:[0-9]+:description/i', $name )) {
+      unset ( $form_state ['values'] ['strings'] [$name] ['format'] );
+    }
+  }
+}
 
 
 

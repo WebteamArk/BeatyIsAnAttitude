@@ -156,9 +156,7 @@ function bia_preprocess_html(&$variables, $hook) {
     	;
     	break;
     }
-  }
-  
-  if ($variables['menu_item']['page_callback'] == 'views_page') {
+  } else if ($variables['menu_item']['page_callback'] == 'views_page') {
     switch ($variables['menu_item']['page_arguments'][0]) {
     	case 'fashion_types':
     	case 'learn_from_the_best':
@@ -172,6 +170,8 @@ function bia_preprocess_html(&$variables, $hook) {
     	  break;
     }
     
+  } else {
+    $variables['classes_array'][] = 'whiteheader'; ;
   }
   
 }
@@ -190,7 +190,13 @@ function bia_preprocess_page(&$variables, $hook) {
   $bia_colors = array();
   $i = 0;
   while ($color = theme_get_setting('bia_color_'.++$i)) $bia_colors[] = '#'.$color;
-  if (count($bia_colors)) drupal_add_js(array('bia_colors'=>$bia_colors),'setting'); 
+  if (count($bia_colors)) drupal_add_js(array('bia_colors'=>$bia_colors),'setting');
+  
+  global $user;
+
+  if ($_GET['q'] == 'user/login' || $_GET['q'] == 'user' && !$user->uid) {
+    drupal_set_title('Login');
+  }
 }
 // */
 
@@ -571,3 +577,43 @@ function bia_field__field_color($variables) {
 
   return $output;
 } */
+  
+
+function bia_block_view_alter(&$data, $block) {
+  global $user;
+  if (!$user->uid && $block->module=='user' && $block->delta == 'login') {
+    $data['subject'] = t('User login');
+    $data['content'] = drupal_get_form('user_login_block');
+  }
+}
+
+
+function bia_form_alter(&$form, &$form_state, $form_id) {
+  if($form_id == 'user_register_form') {
+    $form['actions']['back_login'] = array(
+    	'#type' =>  'markup',
+        '#markup'=>  l(t('Back to login page'),'user/login',array('attributes'=>array('class'=>array('fancybutton')))),
+    );
+
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
