@@ -185,7 +185,7 @@ a.fancybutton,
 
 #content > .block > .content,
 #content #block-views-faq-block-1,
-#content > .view > .view-content,
+#content > .view > *,
 #content > article.node > *,
 #split-blocks {
   max-width: 1200px;
