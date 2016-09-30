@@ -422,7 +422,8 @@ a.fancybutton,
 }
 
 .view-product-listing-nailiners .view-content {
-  text-align: center;
+  text-align: left;
+  font-size: 0;
 }
 
 .view-product-listing-nailiners .views-row {
@@ -431,13 +432,14 @@ a.fancybutton,
   width: 300px;
   margin: 10px;
   height: 315px;
-  text-align: center;
+  text-align: left;
   box-sizing: border-box;
   padding: 50px 45px;
   vertical-align: top;
   -webkit-transition: box-shadow 200ms; /* Safari */
   transition: box-shadow 200ms;
   max-width: 100%;
+  text-align: center; 
 }
 
 .view-product-listing-nailiners.view-display-id-page .views-row {
