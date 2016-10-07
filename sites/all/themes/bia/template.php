@@ -160,6 +160,8 @@ function bia_preprocess_html(&$variables, $hook) {
     switch ($variables['menu_item']['page_arguments'][0]) {
     	case 'fashion_types':
     	case 'learn_from_the_best':
+    	case 'commerce_user_orders':
+    	case '_addressbook':
     	 $variables['classes_array'][] = 'whiteheader'; ;
     	break;
     }
@@ -280,6 +282,10 @@ function bia_menu_link($variables){
   if ($element ['#below']) {
     $sub_menu = drupal_render ( $element ['#below'] );
   }
+  
+  $element ['#localized_options']['html'] = true;
+  $element['#title'] ='<span class="link-inner">'.$element['#title'].'</span><span class="corner1"></span><span class="corner2"></span><span class="corner3"></span><span class="corner4"></span>';
+  
   $output = l ( $element ['#title'], $element ['#href'], $element ['#localized_options'] );
   return '<li' . drupal_attributes ( $element ['#attributes'] ) . '>' . $output . $sub_menu . "</li>\n";
 }
@@ -385,7 +391,29 @@ function bia_commerce_price_formatted_components($variables){
     $price['title'] = t($price['title']);
     $variables['components'][$price_name] = $price;
   }
-  return theme_commerce_price_formatted_components($variables);
+  // Add the CSS styling to the table.
+  drupal_add_css(drupal_get_path('module', 'commerce_price') . '/theme/commerce_price.theme.css');
+
+  // Build table rows out of the components.
+  $rows = array();
+
+  foreach ($variables['components'] as $name => $component) {
+    $rows[] = array(
+      'data' => array(
+        array(
+          'data' => $component['title'],
+          'class' => array('component-title'),
+        ),
+        array(
+          'data' => $component['formatted_price'],
+          'class' => array('component-total'),
+        ),
+      ),
+      'class' => array(drupal_html_class('component-type-' . $name)),
+    );
+  }
+
+  return theme('table', array('rows' => $rows, 'attributes' => array('class' => array('commerce-price-formatted-components', 'table-style-1'))));
 }
 
 function bia_fieldset($variables){
@@ -599,17 +627,102 @@ function bia_form_alter(&$form, &$form_state, $form_id) {
 }
 
 
+function bia_field__commerce_order_total($variables){
+  $variables['classes'].=' table-style-1';
+  return bia_field($variables);
+}
 
 
+function bia_commerce_checkout_progress_list($variables) {
+  $path = drupal_get_path('module', 'commerce_checkout_progress');
+  drupal_add_css($path . '/commerce_checkout_progress.css');
+
+  extract($variables);
+
+  // Option to display back pages as links.
+  if ($link) {
+    if ($order = menu_get_object('commerce_order')) {
+      $order_id = $order->order_id;
+    }
+    // Load the *shopping cart* order. It gets deleted on last page.
+    elseif (module_exists('commerce_cart') && $order = commerce_cart_order_load($GLOBALS['user']->uid)) {
+      $order_id = $order->order_id;
+    }
+  }
+
+  // This is where we build up item list that will be themed
+  // This variable is used with $variables['link'], see more in inside comment.
+  $visited = TRUE;
+  // Our list of progress pages.
+  $progress = array();
+  foreach ($items as $page_id => $page) {
+    $class = array();
+    if ($page_id === $current_page) {
+      $class[] = 'active';
+      // Active page and next pages should not be linked.
+      $visited = FALSE;
+    }
+    if (isset($items[$current_page]['prev_page']) && $page_id === $items[$current_page]['prev_page']) {
+      $class[] = 'previous';
+    }
+    if (isset($items[$current_page]['next_page']) && $page_id === $items[$current_page]['next_page']) {
+      $class[] = 'next';
+    }
+    $class[] = $page_id;
+    $data = t($page['title']);
+
+    if ($visited) {
+      $class[] = 'visited'; // Issue #1345942.
+
+      // On checkout complete page, the checkout order is deleted.
+      if (isset($order_id) && $order_id) {
+        // If a user is on step 1, clicking a link next steps will be redirect them back.
+        // Only render the link on the pages those user has already been on.
+        // Make sure the loaded order is the same one found in the URL.
+        if (arg(1) == $order_id) {
+          $href = isset($page['href']) ? $page['href'] : "checkout/{$order_id}/{$page_id}";
+          $data = l(filter_xss($data), $href, array('html' => TRUE));
+        }
+      }
+    }
+    
+    if (!isset($order_id) || !$order_id || arg(1) != $order_id) {
+      $data = '<a '.($page_id === $current_page?'class="active"':'').'><span class="link-inner">'.$data.'</span><span class="corner1"></span><span class="corner2"></span><span class="corner3"></span><span class="corner4"></span></a>';
+    }
+
+    $item = array(
+        'data'  => $data,
+        'class' => $class,
+    );
+    // Only set li title if the page has help text.
+    if (isset($page['help'])) {
+      //#1322436 Filter help text to be sure it contains NO html.
+      $help = strip_tags($page['help']);
+      // Make sure help has text event after filtering html.
+      if (!empty($help)) {
+        $item['title'] = $help;
+      }
+    }
+    // Add item to progress array.
+    $progress[] = $item;
+  }
+
+  $classes = array(
+      'commerce-checkout-progress',
+      'menu',
+      'checkout-pages-' . count($progress),
+  );
+  return theme('item_list', array(
+      'items' => $progress,
+      'type' => $type,
+      'attributes' => array('class' => $classes),
+  ));
+}
 
 
-
-
-
-
-
-
-
+function bia_checkbox($variables){
+  return '<span class="checkbox-widget">'.theme_checkbox($variables).'<span class="checkbox-widget-bg"></span></span>';
+}
 
 
 
