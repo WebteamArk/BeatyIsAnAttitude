@@ -9,14 +9,8 @@ function commerce_addressbook_schema() {
   $schema['commerce_addressbook_defaults'] = array(
     'description' => 'Stores addressbook defaults by customer profile type.',
     'fields' => array(
-      'cad_id' => array(
-        'description' => 'Serial numeric ID of the default customer profile of a specific type.',
-        'type' => 'serial',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-      ),
       'profile_id' => array(
-        'description' => 'Serial numeric ID of the customer profile in the local database.',
+        'description' => 'Numeric ID of the customer profile in the local database.',
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
@@ -35,7 +29,6 @@ function commerce_addressbook_schema() {
         'not null' => TRUE,
       ),
     ),
-    'primary key' => array('cad_id'),
     'foreign keys' => array(
       'profile_id' => array(
         'table' => 'commerce_customer_profile',
@@ -46,6 +39,9 @@ function commerce_addressbook_schema() {
         'columns'=> array('uid' => 'uid'),
       ),
     ),
+    'unique keys' => array(
+      'uid_type' => array('uid', 'type'),
+    ),
     'indexes' => array(
       'profile_id' => array('profile_id'),
       'uid' => array('uid'),
@@ -53,17 +49,6 @@ function commerce_addressbook_schema() {
   );
 
   return $schema;
-}
-
-/**
- * Implements hook_uninstall().
- */
-function commerce_addressbook_uninstall() {
-  // Ensure the commerce_checkout module is loaded.
-  drupal_load('module', 'commerce_checkout');
-  foreach (commerce_checkout_panes() as $pane_id => $checkout_pane) {
-    variable_del('commerce_' . $pane_id . '_addressbook');
-  }
 }
 
 /**

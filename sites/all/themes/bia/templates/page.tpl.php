@@ -160,13 +160,15 @@ $logobk = implode(".", $logo_arr).'bk.'.$ext;
         <?php if ($action_links): ?>
           <ul class="action-links"><?php print render($action_links); ?></ul>
         <?php endif; ?>
+
+        <div id="split-blocks-outer">
+          <div id="split-blocks">
+            <?php print render($page['extra_2']); ?>
+            <?php print render($page['extra_3']); ?>
+          </div>
+        </div>
         <?php print render($page['content']); ?>
         <?php print $feed_icons; ?>
-
-
-        <?php print render($page['extra_3']); ?>
-
-
 
       </div><!-- /#content -->
 
@@ -180,7 +182,6 @@ $logobk = implode(".", $logo_arr).'bk.'.$ext;
         </aside><!-- /.sidebars -->
         <div class="sideshadow sideshadow-right"></div>
       <?php endif; ?>
-      <?php print render($page['extra_2']); ?>
     </div>
   </div><!-- /#main -->
 

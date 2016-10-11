@@ -48,6 +48,14 @@ Drupal.behaviors.selectWidget = {
 };
 
 
+Drupal.behaviors.updateQuantity = {
+  attach: function (context, settings) {
+    $('#views-form-commerce-cart-form-default .form-type-textfield input', context).change(function(){
+    $('#edit-submit',context).mousedown();
+  });
+ }
+};
+
 // Place your code here.
 $(document).ready(function(){
 	$('.menutrigger').click(function(){
