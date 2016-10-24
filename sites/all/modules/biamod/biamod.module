@@ -87,7 +87,20 @@ function biamod_entity_presave($entity, $type) {
     foreach ($entity->field_nailiner_type_taxonomy[LANGUAGE_NONE] as $id => $term) {
       $entity->field_nailiner_type[LANGUAGE_NONE][$id] = array('target_id'=>$term['tid']);
     }
-  } 
+  }
+
+  if ($type == 'node' && $entity->type == 'instagram_image') {
+    
+    if (isset($entity->field_image_src_path[LANGUAGE_NONE][0]['url']) && !isset($entity->field_image[LANGUAGE_NONE][0])) {
+      $external = $entity->field_image_src_path[LANGUAGE_NONE][0]['url'];
+      $path_array = explode("?",$external);
+      $path = array_shift($path_array);
+      $filename = basename($path);
+      $image = file_get_contents($external);
+      $file = file_save_data($image, 'public://instagram/' . $filename, FILE_EXISTS_RENAME);
+      $entity->field_image = array(LANGUAGE_NONE => array('0' => (array)$file));
+    }
+  }
 }
 
 function biamod_entity_update($entity, $type) {
