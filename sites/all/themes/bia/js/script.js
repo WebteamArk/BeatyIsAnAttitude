@@ -51,8 +51,12 @@ Drupal.behaviors.selectWidget = {
 Drupal.behaviors.updateQuantity = {
   attach: function (context, settings) {
     $('#views-form-commerce-cart-form-default .form-type-textfield input', context).change(function(){
-    $('#edit-submit',context).mousedown();
-  });
+    	$('#edit-submit',context).mousedown();
+    });
+    
+    $('.group-right .commerce-product-field .field-label').click(function(){
+    	$(this).parent().parent().toggleClass('active');
+    });
  }
 };
 
