@@ -474,7 +474,7 @@ function bia_select($variables) {
   
   element_set_attributes($element, array('id', 'name', 'size'));
   _form_set_class($element, array('form-select'));
-  return '<div class="select-widget"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select><input type="text" class="select-text form-text" tabindex="-1" style="display:none" /></div>';
+  return '<div class="select-widget"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select><input type="text" class="select-text form-text" tabindex="-1" readonly="readonly" style="display:none" /></div>';
 }
 
 function bia_textfield($variables){

@@ -54,6 +54,10 @@ function biamod_form_alter(&$form, &$form_state, $form_id) {
     unset($form['field_nailiner_type']);
   }
   
+  if($form_id == 'commerce_product_ui_product_form' && isset($form['field_composition_type_reference'])) {
+    unset($form['field_composition_type_reference']);
+  }
+  
   if ($form_id == 'i18n_string_translate_page_form') {
     // Loop all strings.
     foreach ( $form ['strings'] ['all'] as $name => $field ) {
@@ -76,18 +80,42 @@ function biamod_form_alter(&$form, &$form_state, $form_id) {
 }
 
 function biamod_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
-  if ($entity_form['#entity_type'] == 'commerce_product' && $entity_form['#entity']->type == 'nailiners' && isset($entity_form['field_nailiner_type'])) {
+  if ($entity_form['#entity_type'] == 'commerce_product' && ($entity_form['#entity']->type == 'nailiners' || $entity_form['#entity']->type == 'gel') && isset($entity_form['field_nailiner_type'])) {
     unset($entity_form['field_nailiner_type']);
+  }
+  
+  if ($entity_form['#entity_type'] == 'commerce_product' && $entity_form['#entity']->type == 'gel' && isset($entity_form['field_composition_type_reference'])) {
+    unset($entity_form['field_composition_type_reference']);
   }
 }
 
 function biamod_entity_presave($entity, $type) {
-  if ($type == 'commerce_product' && $entity->type == 'nailiners' ) {
+  if ($type == 'commerce_product' && ($entity->type == 'nailiners' || $entity->type == 'gel') ) {
     $entity->field_nailiner_type[LANGUAGE_NONE] = array();
     foreach ($entity->field_nailiner_type_taxonomy[LANGUAGE_NONE] as $id => $term) {
       $entity->field_nailiner_type[LANGUAGE_NONE][$id] = array('target_id'=>$term['tid']);
     }
-  } 
+  }
+  
+  if ($type == 'commerce_product' && $entity->type == 'gel' ) {
+    $entity->field_composition_type_reference[LANGUAGE_NONE] = array();
+    foreach ($entity->field_composition_type[LANGUAGE_NONE] as $id => $term) {
+      $entity->field_composition_type_reference[LANGUAGE_NONE][$id] = array('target_id'=>$term['tid']);
+    }
+  }
+
+  if ($type == 'node' && $entity->type == 'instagram_image') {
+    
+    if (isset($entity->field_image_src_path[LANGUAGE_NONE][0]['url']) && !isset($entity->field_image[LANGUAGE_NONE][0])) {
+      $external = $entity->field_image_src_path[LANGUAGE_NONE][0]['url'];
+      $path_array = explode("?",$external);
+      $path = array_shift($path_array);
+      $filename = basename($path);
+      $image = file_get_contents($external);
+      $file = file_save_data($image, 'public://instagram/' . $filename, FILE_EXISTS_RENAME);
+      $entity->field_image = array(LANGUAGE_NONE => array('0' => (array)$file));
+    }
+  }
 }
 
 function biamod_entity_update($entity, $type) {
@@ -120,7 +148,21 @@ function _biamod_form_submit($form, &$form_state) {
   }
 }
 
+function biamod_slick_attach_load_info_alter(&$load, $attach, $skins, $settings) {
+  $slick_path = drupal_get_path('module', 'slick');
+  $min = $slick_path . '/js/slick.load.min.js';
+  $dev = $slick_path . '/js/slick.load.js';
 
+  if (1) {
+    // Switch to the non-minified version of the slick.load.min.js.
+    $load['js'] += array(
+        $dev => array('group' => JS_DEFAULT, 'weight' => 0),
+    );
+    if (isset($load['js'][$min])) {
+      unset($load['js'][$min]);
+    }
+  }
+}
 
 
 

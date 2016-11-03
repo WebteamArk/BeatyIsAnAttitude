@@ -14,6 +14,7 @@
 	bottom: 0px;
 	display: block;
 	width: 100%;
+	height: auto !important;
 }
 
 .js .select-widget select:not([multiple]) + .select-text {
@@ -265,7 +266,12 @@ a.fancybutton,
   padding-bottom: 75px;
 }
 
-.view.trending .slick__slide {
+#content #block-views-trending-colors-block .view-trending-colors {
+  width: 1000px;
+  margin: auto;
+}
+
+.view.trending .slick__slide .slide__content {
   width: 200px;
   height: 222px;
   padding: 50px 25px 25px;
@@ -275,6 +281,8 @@ a.fancybutton,
   transition: all 200ms;
   box-shadow: 0px 0px 5px 2px rgba(0,0,0,0);
   border: 1px solid transparent;
+  margin: auto;
+  position: relative;
 }
 
 .views-field-php .color,
@@ -285,7 +293,7 @@ a.fancybutton,
   display: inline-block;
 }
 
-.view.trending .slick__slide:hover {
+.view.trending .slick__slide .slide__content:hover {
   box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.16);
   border: 1px solid #95989a;
 }
@@ -296,6 +304,8 @@ a.fancybutton,
   opacity: 0;
   -webkit-transition: opacity 200ms 200ms, visibility 0ms 400ms; /* Safari */
   transition: opacity 200ms 200ms, visibility 0ms 400ms;
+  opacity: 1;
+  visibility: visible;
 }
 
 .view.trending .slick-active,
@@ -1512,7 +1522,8 @@ table.checkout-review {
 
 .taxonomy-term .field-name-field-svg,
 .taxonomy-term .field-name-field-svg-hover,
-.taxonomy-term.vocabulary-nailiners .field-name-field-title {
+.taxonomy-term.vocabulary-nailiners .field-name-field-title,
+.taxonomy-term.vocabulary-composition .field-name-field-title {
   display: inline-block;
   vertical-align: middle;
   position: relative;
@@ -1520,7 +1531,8 @@ table.checkout-review {
   transition: all 200ms;
 }
 
-.taxonomy-term.vocabulary-nailiners .field-name-field-title {
+.taxonomy-term.vocabulary-nailiners .field-name-field-title,
+.taxonomy-term.vocabulary-composition .field-name-field-title {
   margin-left: 20px;
   font-size: 16px;
   font-weight: 500;
@@ -1533,26 +1545,39 @@ table.checkout-review {
   max-width: none;
 }
 
-.commerce-product-field-field-nailiner-type {
+.commerce-product-field-field-nailiner-type,
+.commerce-product-field-field-composition-type-reference {
   margin-bottom: 25px;
   margin-top: 50px;
 }
 
+.commerce-product-field-field-composition-type-reference {
+  margin-top: 25px;
+}
+
 .commerce-product-field-field-fashion-type,
 .commerce-product-field-field-color-type,
+.commerce-product-field-field-color,
 .commerce-product-field-field-main-color,
 .commerce-product-field-field-amount,
-.commerce-product-field-field-liquid-type {
+.commerce-product-field-field-liquid-type,
+.commerce-product-field-field-composition-type,
+.commerce-product-field-field-description {
   font-size: 16px;
   font-weight: 500;
   padding-bottom: 10px;
   padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   border-top: 1px solid #95989a;
 }
 
 .commerce-product-field-field-amount {
   border-bottom: 1px solid #95989a;
-  margin-bottom: 25px;
+}
+
+.group-right .field-type-commerce-product-reference {
+  margin-top: 50px;
 }
 
 .commerce-add-to-cart .form-submit {
@@ -1583,7 +1608,7 @@ table.checkout-review {
   padding-right: calc(50% - 450px) !important;
 }
 
-.view-variations .slick__slide {
+.view-variations .slick__slide .slide__content {
   width: 300px;
   height: 315px;
   padding: 180px 25px 25px;
@@ -1598,7 +1623,7 @@ table.checkout-review {
   margin: auto;
 }
 
-.view-variations .slick__slide:hover {
+.view-variations .slick__slide .slide__content:hover {
   box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.16);
   border: 1px solid #95989a;
   background-color: rgba(255,255,255,1);
@@ -1638,13 +1663,13 @@ table.checkout-review {
   box-sizing: border-box;
 }
 
-.view-variations .slick__slide:hover .views-field-php .color,
-.view-variations .slick__slide:hover .views-field-field-color .jquery_colorpicker_color_display,
-.view-variations .slick__slide:hover .views-field-field-nailiner-type .taxonomy-term img {
+.view-variations .slick__slide .slide__content:hover .views-field-php .color,
+.view-variations .slick__slide .slide__content:hover .views-field-field-color .jquery_colorpicker_color_display,
+.view-variations .slick__slide .slide__content:hover .views-field-field-nailiner-type .taxonomy-term img {
   border-color: #eef3f6;
 }
 
-.view-variations .slick__slide:hover .views-field-field-nailiner-type .taxonomy-term img {
+.view-variations .slick__slide .slide__content:hover .views-field-field-nailiner-type .taxonomy-term img {
   background-color: #eef3f6;
 }
 
@@ -2620,8 +2645,56 @@ form:not(.confirmation) div.addressfield-container-inline::after {
   display: none;
 } 
 
+.group-right .commerce-product-field .field-label {
+  display: block;
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+  background: url("../../images/right.png") 99% 50% no-repeat transparent;
+  background-position: calc(100% - 10px) 50%;
+  background-size: auto 15px;
+  cursor: pointer;
+  line-height: 1.3;
+}
+
+.group-right .commerce-product-field .field-label + .field-items {
+  overflow: hidden;
+  line-height: 0;
+  margin-top: 0;
+  -webkit-transition: all 200ms; /* Safari */
+  transition: all 200ms;
+  display: none;
+}
 
 
+.group-right .commerce-product-field.active .field-label {
+  background: url("../../images/down3.png") 99% 50% no-repeat transparent;
+  background-position: calc(100% - 8px) 50%;
+  background-size: 15px auto;
+}
+
+.group-right .commerce-product-field.active .field-label + .field-items {
+  line-height: 1.2;
+  margin-top: 0.5em;
+  display: block;
+}
+
+.group-right .commerce-product-field.commerce-product-field-field-nailiner-type,
+.group-right .commerce-product-field.commerce-product-field-field-composition-type-reference {
+  padding: 0;
+}
+
+.group-right .commerce-product-field.commerce-product-field-field-nailiner-type .field-label,
+.group-right .commerce-product-field.commerce-product-field-field-composition-type-reference .field-label {
+  display: none;
+}
+
+
+.group-right .commerce-product-field.commerce-product-field-field-nailiner-type .field-label + .field-items,
+.group-right .commerce-product-field.commerce-product-field-field-composition-type-reference .field-label + .field-items {
+  margin-top: 0;
+  display: block;
+}
 
 
 
@@ -2635,6 +2708,12 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     padding-left: 50px !important;
     padding-right: 50px !important;
   }
+  
+  #content #block-views-trending-colors-block .view-trending-colors {
+    width: 858px;
+    margin: auto;
+  }
+  
 }
 
 @media screen and (max-device-width: 1024px), screen and (max-width: 1024px) {
@@ -2809,7 +2888,12 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     padding-left: 0;
   }
   
-  .view.trending .slick__slide {
+  #content #block-views-trending-colors-block .view-trending-colors {
+    width: 858px;
+    margin: auto;
+  }
+  
+  .view.trending .slick__slide .slide__content {
     padding: 25px;
     width: 246px;
     height: 221px;
@@ -2858,7 +2942,7 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     padding-bottom: 0px;
   }
   
-  .view-variations .slick__slide {
+  .view-variations .slick__slide .slide__content {
     padding: 175px 15px 25px;
     width: 245px;
   }
@@ -2950,6 +3034,14 @@ form:not(.confirmation) div.addressfield-container-inline::after {
   }
 }
 
+
+@media screen and (max-device-width: 900px), screen and (max-width: 900px) {
+  #content #block-views-trending-colors-block .view-trending-colors {
+    width: 630px;
+    margin: auto;
+  }
+}
+
 @media screen and (max-device-width: 800px), screen and (max-width: 800px) {
   .block.nailiner1 .overlay {
     padding-bottom: 55px;
@@ -2965,12 +3057,12 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     width: 40%;
   }
   
-  .view.trending .slick__slide {
+  .view.trending .slick__slide .slide__content {
     width: 180px;
     padding: 25px 20px;
   }
   
-  .view-variations .slick__slide {
+  .view-variations .slick__slide .slide__content {
     padding: 175px 5px 25px;
     width: 180px;
   }
@@ -2982,7 +3074,7 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     width: 120px;
   }
   
-  .view-variations .slick__slide {
+  .view-variations .slick__slide .slide__content {
     height: 308px;
   }
   
@@ -3215,6 +3307,7 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     width: 100%;
     padding-left: 60px;
     padding-right: 60px;
+    box-sizing: border-box;
   }
   
   .node-product .view--product-pictures {
@@ -3279,6 +3372,11 @@ form:not(.confirmation) div.addressfield-container-inline::after {
   .view-product-listing-nailiners .view-content .views-row {
     margin-left: calc(25% - 100px);
     margin-right: calc(25% - 100px);
+  }
+  
+  #content #block-views-trending-colors-block .view-trending-colors {
+    width: 100%;
+    margin: auto;
   }
 }
 
@@ -3349,8 +3447,7 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     margin-bottom: 30px;
   }
   
-  .view.trending .slick__slide {
-    border: none;
+  .view.trending .slick__slide .slide__content {
     box-shadow: none;
     opacity: 1;
     padding: 30px 0px 0px 0px;
@@ -3358,8 +3455,8 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     visibility: visible;
   }
   
-  .view-variations .slick__slide,
-  .view-variations .slick__slide:hover {
+  .view-variations .slick__slide .slide__content,
+  .view-variations .slick__slide .slide__content:hover {
     border: none;
     box-shadow: none;
     background-color: transparent;
@@ -3367,26 +3464,26 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     visibility: hidden;
   }
   
-  .view-variations .slick-current.slick__slide,
-  .view-variations .slick-current.slick__slide:hover {
+  .view-variations .slick__slide .slide__content,
+  .view-variations .slick__slide .slide__content:hover {
     opacity: 1;
     visibility: visible;
   }
   
-  .view-variations .slick__slide:hover .views-field-php .color,
-  .view-variations .slick__slide:hover .views-field-field-color .jquery_colorpicker_color_display,
-  .view-variations .slick__slide:hover .views-field-field-nailiner-type .taxonomy-term img {
+  .view-variations .slick__slide .slide__content:hover .views-field-php .color,
+  .view-variations .slick__slide .slide__content:hover .views-field-field-color .jquery_colorpicker_color_display,
+  .view-variations .slick__slide .slide__content:hover .views-field-field-nailiner-type .taxonomy-term img {
     border-color: white;
   }
   
   
-  .view.trending .slick__slide {
+  .view.trending .slick__slide .slide__content {
     opacity: 0;
     visibility: hidden;
   }
   
-  .view.trending .slick-current.slick__slide,
-  .view.trending .slick-current.slick__slide:hover {
+  .view.trending .slick__slide .slide__content,
+  .view.trending .slick__slide .slide__content:hover {
     opacity: 1;
     visibility: visible;
   }
@@ -3522,8 +3619,54 @@ form:not(.confirmation) div.addressfield-container-inline::after {
   .node-product .group-right {
     padding-left: 0px;
     padding-right: 0px;
-    text-align: center;
   }
+  
+  .group-right .commerce-product-field .field-label {
+    font-size: 12px;
+    font-weight: 500;
+    background-position: calc(100% - 10px) 50%;
+    background-size: auto 15px;
+  }
+  
+  .group-right .commerce-product-field.active .field-label {
+    background-position: calc(100% - 8px) 50%;
+    background-size: 15px auto;
+  }
+  
+  .group-right .commerce-product-field.active .field-label + .field-items {
+    font-size: 12px;
+    line-height: 1.3;
+    color: #95989A;
+  }
+  
+  
+  
+  
+  .group-right .commerce-product-field.commerce-product-field-field-nailiner-type,
+  .group-right .commerce-product-field.commerce-product-field-field-composition-type-reference {
+    padding: 10px;
+    display: block;
+    margin: 0;
+  }
+  
+  .group-right .commerce-product-field.commerce-product-field-field-nailiner-type .field-label,
+  .group-right .commerce-product-field.commerce-product-field-field-composition-type-reference .field-label {
+    display: block;
+  }
+  
+  
+  .group-right .commerce-product-field.commerce-product-field-field-nailiner-type .field-label + .field-items,
+  .group-right .commerce-product-field.commerce-product-field-field-composition-type-reference .field-label + .field-items {
+    display: none;
+  }
+  
+  .group-right .commerce-product-field.commerce-product-field-field-nailiner-type.active .field-label + .field-items,
+  .group-right .commerce-product-field.commerce-product-field-field-composition-type-reference.active .field-label + .field-items {
+    display: block;
+    margin-top: 0.5em;
+  }
+  
+  
   
   .node-product .group-right table.commerce-price-savings-formatter-prices {
     margin: auto;
@@ -3531,7 +3674,6 @@ form:not(.confirmation) div.addressfield-container-inline::after {
   
   .node-product .commerce-product-field-field-nailiner-type {
     text-align: left;
-    display: inline-block;
   }
   
   .commerce-product-field-field-fashion-type,

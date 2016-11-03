@@ -155,9 +155,9 @@
         if (!o.centerPadding || o.centerPadding === "0") {
           slick.$list.css("padding", "");
         }
-
+        
         // Do not remove arrows, to allow responsive have different options.
-        return slick.slideCount <= o.slidesToShow || o.arrows === false
+        return slick.slideCount <= slick.options.slidesToShow || slick.options.arrows === false
           ? a.addClass("element-hidden") : a.removeClass("element-hidden");
       }
     },
