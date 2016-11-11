@@ -84,7 +84,7 @@ function biamod_inline_entity_form_entity_form_alter(&$entity_form, &$form_state
     unset($entity_form['field_nailiner_type']);
   }
   
-  if ($entity_form['#entity_type'] == 'commerce_product' && $entity_form['#entity']->type == 'gel' && isset($entity_form['field_composition_type_reference'])) {
+  if ($entity_form['#entity_type'] == 'commerce_product' && $entity_form['#entity']->type == 'nailiners' && isset($entity_form['field_composition_type_reference'])) {
     unset($entity_form['field_composition_type_reference']);
   }
 }
@@ -97,7 +97,7 @@ function biamod_entity_presave($entity, $type) {
     }
   }
   
-  if ($type == 'commerce_product' && $entity->type == 'gel' ) {
+  if ($type == 'commerce_product' && $entity->type == 'nailiners' ) {
     $entity->field_composition_type_reference[LANGUAGE_NONE] = array();
     foreach ($entity->field_composition_type[LANGUAGE_NONE] as $id => $term) {
       $entity->field_composition_type_reference[LANGUAGE_NONE][$id] = array('target_id'=>$term['tid']);
