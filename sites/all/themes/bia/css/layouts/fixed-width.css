@@ -1055,9 +1055,47 @@ table.checkout-review {
   text-align: center;
 }
 
-.yesilike .content a {
-  padding: 0 14px;
+.node-social-footer-icon.node-teaser {
+  position: relative;
+}
+
+.view-yes-i-like .views-row {
   display: inline-block;
+}
+
+.view-yes-i-like .views-row img {
+  height: 40px;
+  display: block;
+  padding: 0 14px;
+}
+
+.node-social-footer-icon .field-name-field-socialmedia-link a {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: block;
+  z-index: 10;
+  text-indent: -9999px;
+  overflow: hidden;
+}
+
+.node-social-footer-icon .field-name-field-svg-hover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  opacity: 0;
+  z-index: 5;
+}
+
+.node-social-footer-icon:hover .field-name-field-svg-hover {
+  opacity: 1;
+}
+
+.node-social-footer-icon:hover .field-name-field-svg {
+  opacity: 0;
 }
 
 #content .block.yesilike {
@@ -1604,11 +1642,14 @@ table.checkout-review {
 }
 
 .view-variations .slick-list {
-  padding-left: calc(50% - 450px) !important;
-  padding-right: calc(50% - 450px) !important;
+  margin-left: calc(50% - 535px) !important;
+  padding-left: 10px !important;
+  margin-right: calc(50% - 535px) !important;
+  padding-right: 10px !important;
 }
 
-.view-variations .slick__slide .slide__content {
+.view-variations .slick__slide .slide__content,
+.view-variations .slick__slide:not(.slick-slide) {
   width: 300px;
   height: 315px;
   padding: 180px 25px 25px;
@@ -1621,9 +1662,11 @@ table.checkout-review {
   position: relative;
   background-color: rgba(255,255,255,0);
   margin: auto;
+  max-width: 100%;
 }
 
-.view-variations .slick__slide .slide__content:hover {
+.view-variations .slick__slide .slide__content:hover,
+.view-variations .slick__slide:not(.slick-slide):hover {
   box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.16);
   border: 1px solid #95989a;
   background-color: rgba(255,255,255,1);
@@ -1665,14 +1708,12 @@ table.checkout-review {
 
 .view-variations .slick__slide .slide__content:hover .views-field-php .color,
 .view-variations .slick__slide .slide__content:hover .views-field-field-color .jquery_colorpicker_color_display,
-.view-variations .slick__slide .slide__content:hover .views-field-field-nailiner-type .taxonomy-term img {
+.view-variations .slick__slide .slide__content:hover .views-field-field-nailiner-type .taxonomy-term img,
+.view-variations .slick__slide:not(.slick-slide):hover .views-field-php .color,
+.view-variations .slick__slide:not(.slick-slide):hover .views-field-field-color .jquery_colorpicker_color_display,
+.view-variations .slick__slide:not(.slick-slide):hover .views-field-field-nailiner-type .taxonomy-term img {
   border-color: #eef3f6;
 }
-
-.view-variations .slick__slide .slide__content:hover .views-field-field-nailiner-type .taxonomy-term img {
-  background-color: #eef3f6;
-}
-
 
 .view-variations .views-field-field-nailiner-type .taxonomy-term:nth-child(2) {
   top: 73px;
@@ -1723,6 +1764,7 @@ table.checkout-review {
   bottom: 0;
   display: block;
   text-indent: -9999px;
+  overflow: hidden;
 }
 
 .slick--center .slick-track {
@@ -2696,17 +2738,17 @@ form:not(.confirmation) div.addressfield-container-inline::after {
   display: block;
 }
 
-
+@media screen and (max-device-width: 1190px), screen and (max-width: 1190px) {
+  .view-variations .slick-list {
+    margin-left: calc(50% - 439px) !important;
+    margin-right: calc(50% - 439px) !important;
+  }
+}
 
 @media screen and (max-device-width: 1130px), screen and (max-width: 1130px) {
   #content > .view-product-listing-nailiners > .view-content,
   .view-product-listing-nailiners .view-content {
     max-width: 800px;
-  }
-  
-  .view-variations .slick-list {
-    padding-left: 50px !important;
-    padding-right: 50px !important;
   }
   
   #content #block-views-trending-colors-block .view-trending-colors {
@@ -3040,6 +3082,12 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     width: 630px;
     margin: auto;
   }
+  
+  .view-variations .slick-list {
+    margin-left: calc(50% - 325px) !important;
+    margin-right: calc(50% - 325px) !important;
+  }
+  
 }
 
 @media screen and (max-device-width: 800px), screen and (max-width: 800px) {
@@ -3060,6 +3108,11 @@ form:not(.confirmation) div.addressfield-container-inline::after {
   .view.trending .slick__slide .slide__content {
     width: 180px;
     padding: 25px 20px;
+  }
+  
+  .view-variations .slick-list {
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
   
   .view-variations .slick__slide .slide__content {
