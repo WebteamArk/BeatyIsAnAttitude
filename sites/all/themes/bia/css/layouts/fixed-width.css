@@ -132,6 +132,27 @@ a.fancybutton,
   text-transform: uppercase;
   color: black;
   border: none;
+  -webkit-transition: all 200ms; /* Safari */
+  transition: all 200ms;
+}
+
+a.fancybutton:hover,
+.allfancy a:hover,
+.more-link a:hover,
+.fancyblock:hover,
+.form-submit:hover,
+.checkout-buttons .checkout-cancel:hover,
+.checkout-buttons .checkout-back:hover,
+.checkout-buttons .checkout-cancel:focus:hover,
+.checkout-buttons .checkout-back:focus:hover,
+.checkout-buttons .checkout-cancel:hover,
+.checkout-buttons .checkout-back:hover,
+.pager li > *:hover,
+.form-actions a:hover,
+.action-links a:hover {
+  -webkit-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.16);
+  -moz-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.16);
+  box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.16);
 }
 
 .action-links {
@@ -158,11 +179,11 @@ a.fancybutton,
   top: 50px;
 }
 
-.block.nailiner1 {
+.block.productheader {
   position: relative;
 }
 
-.block.nailiner1 .overlay {
+.block.productheader .overlay {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -170,7 +191,7 @@ a.fancybutton,
   text-align: center;
 }
 
-.block.nailiner1 svg {
+.block.productheader svg {
   display: block;
 }
 
@@ -183,14 +204,12 @@ a.fancybutton,
   text-indent: -9999px;
 }
 
-.block.nailiner1 .overlay .skipdown {
+.block.productheader .overlay .skipdown {
   margin: 75px 0 55px;  
 }
 
-.block.liquids1 .content {
-  padding-top: 29.1667%;
-  background: url("../../images/liquids-header.png") center center no-repeat transparent;
-  background-size: cover;
+.block.productheaders .content {
+  
 }
 
 .node-block1 .content {
@@ -406,7 +425,8 @@ a.fancybutton,
   color: #95989a;
 }
 
-#content #block-views-faq-block-1 {
+#content #block-views-faq-block-1,
+#content > .view-faq {
   background: url("../../images/bgfaq.png") center center no-repeat transparent;
   background-size: cover;
   padding: 0;  
@@ -434,7 +454,8 @@ a.fancybutton,
   margin-bottom: 35px;
 }
 
-#block-views-faq-block-1 .views-row {
+#block-views-faq-block-1 .views-row,
+#content > .view-faq .views-row {
   margin: 10px auto;
   max-width: 600px;
   font-size: 12px;
@@ -445,7 +466,12 @@ a.fancybutton,
   cursor: pointer;
 }
 
-#block-views-faq-block-1 .views-field-field-description {
+#content > .view-faq .views-row {
+  cursor: auto;
+}
+
+#block-views-faq-block-1 .views-field-field-description,
+#content > .view-faq .views-field-field-description {
   font-weight: normal;
   text-transform: none;
   margin-top: 0px;
@@ -455,7 +481,8 @@ a.fancybutton,
   overflow: hidden;
 }
 
-#block-views-faq-block-1 .views-row.active .views-field-field-description {
+#block-views-faq-block-1 .views-row.active .views-field-field-description,
+#content > .view-faq .views-field-field-description {
   line-height: 1.1;
   margin-top: 15px;
 }
@@ -720,14 +747,19 @@ a.fancybutton,
   margin: 0 10px;
 }
 
+.region-header-2 > * {
+  margin: 0 7px;
+}
+
 .region-header {
-  width: calc(100% - 235px - 44px);
+  width: calc(100% - 235px - 75px);
   box-sizing: border-box;
 }
 
 .region-header-2 {
-  width: 44px;
+  width: 75px;
   box-sizing: border-box;
+  white-space: nowrap;
 }
 
 #block-language-switcher-fallback-language-switcher-fallback ul.language-switcher-locale-url,
@@ -773,8 +805,25 @@ a.fancybutton,
   position: relative;
 }
 
+.block.loginbutton .content a {
+  display: block;
+  text-indent: -9999px;
+  overflow: hidden;
+  height: 20px;
+  width: 20px;
+  background: url("../../images/login-white.svg") center center no-repeat transparent;
+  background-size: 100% auto;
+  position: relative;
+  text-align: left;
+}
+
+
 .whiteheader #block-commerce-cart-cart {
   background: url("../../images/cart.svg") center center no-repeat transparent;
+}
+
+.whiteheader .block.loginbutton .content a {
+  background: url("../../images/login.svg") center center no-repeat transparent;
 }
 
 .view-commerce-cart-block, 
@@ -984,7 +1033,8 @@ table.checkout-review {
 
 #block-views-faq-block-1 .views-row,
 .form-text,
-.form-textarea  {
+.form-textarea,
+#content > .view-faq .views-row  {
   max-width: 600px;
   width: 100%;
   box-sizing: border-box;
@@ -1439,16 +1489,16 @@ table.checkout-review {
   display: none;
 }
 
-.node-type-product .block.nailiner1 .overlay {
+.node-type-product .block.productheader .overlay {
  display: none; 
 }
 
-.node-type-product .block.nailiner1 svg {
+.node-type-product .block.productheader svg {
   margin-top: -13vw;
   margin-bottom: -12vw;
 }
 
-.node-type-product .block.nailiner1 .content {
+.node-type-product .block.productheader .content {
   overflow: hidden;
 }
 
@@ -1747,6 +1797,7 @@ table.checkout-review {
 .view-variations .views-field-commerce-price .commerce-price-savings-formatter-prices tr td {
   font-size: 12px;
   font-weight: bold;
+  padding: 0px 5px; 
 }
 
 .view-variations .views-field-commerce-price .commerce-price-savings-formatter-prices {
@@ -2738,6 +2789,11 @@ form:not(.confirmation) div.addressfield-container-inline::after {
   display: block;
 }
 
+#content > .view-faq {
+  padding: 75px;
+  background-attachment: fixed;
+}
+
 @media screen and (max-device-width: 1190px), screen and (max-width: 1190px) {
   .view-variations .slick-list {
     margin-left: calc(50% - 439px) !important;
@@ -2778,7 +2834,8 @@ form:not(.confirmation) div.addressfield-container-inline::after {
   }
   
   #block-commerce-cart-cart,
-  .block-commerce-cart .view-header .line-item-quantity-raw {
+  .block-commerce-cart .view-header .line-item-quantity-raw,
+  .block.loginbutton .content a {
     height: 24px;
     width: 24px;
     line-height: 19px;
@@ -2918,11 +2975,11 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     border-bottom: 1px solid white;
   }
   
-  .block.nailiner1 .overlay .skipdown {
+  .block.productheader .overlay .skipdown {
     display: none;
   }
   
-  .block.nailiner1 .overlay {
+  .block.productheader .overlay {
     padding-bottom: 75px;
   }
   
@@ -3034,7 +3091,7 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     margin: 0 -30px;
   }
   
-  .node-type-product .block.nailiner1 svg {
+  .node-type-product .block.productheader svg {
     margin-top: -10vw;
     margin-bottom: -10vw;
   }
@@ -3091,7 +3148,7 @@ form:not(.confirmation) div.addressfield-container-inline::after {
 }
 
 @media screen and (max-device-width: 800px), screen and (max-width: 800px) {
-  .block.nailiner1 .overlay {
+  .block.productheader .overlay {
     padding-bottom: 55px;
   }
   
@@ -3465,7 +3522,7 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     background-size: 30px auto;
   }
   
-  .block.nailiner1 .overlay {
+  .block.productheader .overlay {
     display: none;
   }
   
