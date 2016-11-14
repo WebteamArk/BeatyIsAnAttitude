@@ -249,9 +249,9 @@ $databases = array (
   array (
     'default' => 
     array (
-      'database' => 'maes_drupal7_dev1',
-      'username' => 'webdeveloper',
-      'password' => 'W3bDev',
+      'database' => 'bia',
+      'username' => 'drupal',
+      'password' => 'drupal',
       'host' => 'localhost',
       'port' => '',
       'driver' => 'mysql',

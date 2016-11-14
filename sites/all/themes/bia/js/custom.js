@@ -90,6 +90,8 @@
 				$index = 0;
 			}			
 			if ($('#Laag_1').length) {
+				/*
+				
 				//background color of svg
   				$('#background').fadeTo('slow', 0, function()
 					{
@@ -100,7 +102,11 @@
 					{
 						$( "#svgGradient" ).html( '<stop  offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/> <stop  offset="'+$index+'" style="stop-color:'+$gradiantcolor+'"/>' );
 
-					}).fadeTo(fadeTimeItems, 1 , 'linear');	  			
+					}).fadeTo(fadeTimeItems, 1 , 'linear');
+					
+					*/
+				
+				$('#background').css({fill: $pageColor, transition: "2.0s"});	
 	  		}
 		}
 		
