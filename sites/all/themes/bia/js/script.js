@@ -70,8 +70,14 @@ $(document).ready(function(){
 		$(this).toggleClass('active');
 	});
 	
-	
-	
+	$(document).on('click', 'a.skipdown, a.skipdown2', function(event){
+	    event.preventDefault();
+	    $('html, body').animate({
+	        scrollTop: $( $.attr(this, 'href') ).offset().top
+	    }, 400);
+	});
+
 });
+
 
 })(jQuery, Drupal, this, this.document);
