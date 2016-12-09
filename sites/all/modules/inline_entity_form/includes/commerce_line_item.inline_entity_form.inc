@@ -98,8 +98,8 @@ class CommerceLineItemInlineEntityFormController extends EntityInlineEntityFormC
       '#weight' => $extra_fields['label']['weight'],
       '#fieldset' => 'line_item_details',
     );
-    field_attach_form('commerce_line_item', $line_item, $entity_form, $form_state);
-
+    $entity_form = parent::entityForm($entity_form, $form_state);
+    
     // Tweaks specific to product line items.
     if (in_array($line_item->type, $this->productLineItemTypes())) {
       $entity_form['line_item_label']['#access'] = FALSE;

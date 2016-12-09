@@ -94,7 +94,7 @@ p:last-child {
 .product-listings #header,
 .node-type-product #header,
 .page-products #header {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   left: 0;
   right: 0;
@@ -106,6 +106,22 @@ p:last-child {
 .node-type-product #content > .contextual-links-wrapper,
 .page-products #content > .contextual-links-wrapper {
   margin-top: 85px;
+}
+
+.product-listings #content .block.first {
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.first-opt-label option,
+.first-opt-label + .select-text {
+   text-transform: capitalize;
+}
+
+.first-opt-label option:first-child {
+  text-transform: capitalize;
+  font-style: italic;
 }
 
 #header {
@@ -138,6 +154,7 @@ a.fancybutton,
   border: none;
   -webkit-transition: all 200ms; /* Safari */
   transition: all 200ms;
+  border-radius: 0;
 }
 
 a.fancybutton:hover,
@@ -185,6 +202,7 @@ a.fancybutton,
 
 .block.productheader {
   position: relative;
+  overflow: hidden;
 }
 
 .block.productheader .overlay {
@@ -254,6 +272,10 @@ a.fancybutton,
   margin: 0px 0 55px;
 }
 
+.block-title {
+  letter-spacing: 7px;
+}
+
 #content .block {
   margin:0;
   padding-top: 75px;
@@ -274,6 +296,43 @@ a.fancybutton,
   padding-right: 5%;
 }
 
+#content > #block-views-variations-block-1 > *:not(.contextual-links-wrapper),
+#content > #block-views-trending-colors-block > *:not(.contextual-links-wrapper) {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+#content > .view > .item-list {
+ padding: 75px 0;
+ max-width: 100%;
+ background: #f6f8fa; 
+}
+
+.item-list .pager {
+  display: block;
+}
+
+.item-list ul.pager li  {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0 0.5em;
+}
+
+.item-list ul.pager li a {
+  display: block;
+}
+
+.item-list ul.pager li a:not([href]) {
+  color: rgba(0,0,0,0.4);
+  cursor: not-allowed;
+}
+
+.item-list ul.pager li.pager-current a {
+  color: black;
+  cursor: crosshair;
+  font-weight: bold;
+}
+
 .node-block1 .field-name-field-textline {
   color: black;
   font-size: 20px;
@@ -289,7 +348,7 @@ a.fancybutton,
   padding-bottom: 75px;
 }
 
-#content #block-views-trending-colors-block .view-trending-colors {
+#content #block-views-trending-colors-block .view-trending-colors .slick__slider {
   width: 1000px;
   margin: auto;
   text-transform: uppercase;
@@ -306,7 +365,12 @@ a.fancybutton,
   box-shadow: 0px 0px 5px 2px rgba(0,0,0,0);
   border: 1px solid transparent;
   margin: auto;
+  margin: 5px;
   position: relative;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  max-width: calc(100% - 10px);
+  display: inline-block;
 }
 
 .views-field-php .color,
@@ -319,7 +383,7 @@ a.fancybutton,
 
 .view.trending .slick__slide .slide__content:hover {
   box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.16);
-  border: 1px solid #95989a;
+  border: 1px solid transparent;
 }
 
 .view.trending .slick-slide,
@@ -330,6 +394,7 @@ a.fancybutton,
   transition: opacity 200ms 200ms, visibility 0ms 400ms;
   opacity: 1;
   visibility: visible;
+  text-align: center;
 }
 
 .view.trending .slick-active,
@@ -339,6 +404,8 @@ a.fancybutton,
   visibility: visible;
   -webkit-transition: opacity 0ms 0ms, visibility 0ms 0ms; /* Safari */
   transition: opacity 0ms 0ms, visibility 0ms 0ms;
+  padding: 0;
+  margin: 0;
 }
 
 .slick--optionset--default-1 .slick-slide {
@@ -1077,6 +1144,7 @@ table.checkout-review {
   max-width: 600px;
   width: 100%;
   box-sizing: border-box;
+  border-radius: 0px;
 }
 
 .form-text,
@@ -1294,7 +1362,7 @@ table.checkout-review {
 }
 
 .webform-client-form .form-item {
-  margin: 0.75em 0;
+  margin: 1.25em 0;
 }
 
 .webform-client-form .form-actions {
@@ -1552,8 +1620,8 @@ table.checkout-review {
 }
 
 .node-type-product .block.productheader svg {
-  margin-top: -13vw;
-  margin-bottom: -12vw;
+  margin-top: -10vw;
+  margin-bottom: -9vw;
 }
 
 .node-type-product .block.productheader .content {
@@ -1590,6 +1658,10 @@ table.checkout-review {
 
 .widget_pager_bottom .views-slideshow-pager-field-item {
   display: inline-block;
+}
+
+.widget_pager_bottom .views-slideshow-pager-field-item:last-child:first-child {
+  display: none;
 }
 
 .widget_pager_bottom .views-slideshow-pager-field-item .views-field-title {
@@ -1700,8 +1772,7 @@ table.checkout-review {
   max-width: none;
 }
 
-.commerce-product-field-field-nailiner-type,
-.commerce-product-field-field-composition-type-reference {
+.commerce-product-field-field-nailiner-type {
   margin-bottom: 25px;
   margin-top: 50px;
 }
@@ -1710,6 +1781,7 @@ table.checkout-review {
   margin-top: 25px;
 }
 
+.commerce-product-field-field-composition-type-reference,
 .commerce-product-field-field-fashion-type,
 .commerce-product-field-field-color-type,
 .commerce-product-field-field-color,
@@ -1790,12 +1862,14 @@ table.checkout-review {
   background-color: rgba(255,255,255,0);
   margin: auto;
   max-width: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .view-variations .slick__slide .slide__content:hover,
 .view-variations .slick__slide:not(.slick-slide):hover {
   box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.16);
-  border: 1px solid #95989a;
+  border: 1px solid transparent;
   background-color: rgba(255,255,255,1);
 }
 
@@ -1933,14 +2007,14 @@ table.checkout-review {
 .slick-prev:hover,
 .slick-prev:focus,
 .slick-prev {
-  background: url("../../images/previous-page.svg") 70% 50% no-repeat white;
+  background: url("../../images/previous-page2.svg") 70% 50% no-repeat white;
   background-size: auto 35px;
 }
 
 .slick-next:hover,
 .slick-next:focus,
 .slick-next {
-  background: url("../../images/next-page.svg") 30% 50% no-repeat white;
+  background: url("../../images/next-page2.svg") 30% 50% no-repeat white;
   background-size: auto 35px;
 }
 
@@ -1981,7 +2055,7 @@ table.checkout-review {
   max-width: calc(600px + 10%);
   line-height: 0;
   font-size: 0;
-  text-align: center;
+  text-align: left;
   box-sizing: border-box;
 }
 
@@ -2836,13 +2910,15 @@ form:not(.confirmation) div.addressfield-container-inline::after {
   overflow: hidden;
   line-height: 0;
   margin-top: 0;
-  -webkit-transition: all 200ms; /* Safari */
-  transition: all 200ms;
+  -webkit-transition: all 500ms; /* Safari */
+  transition: all 500ms;
+  display: block;
+  opacity: 0;
 }
 
 .group-right .commerce-product-field .field-label + .field-items * {
-  -webkit-transition: all 200ms; /* Safari */
-  transition: all 200ms;
+  -webkit-transition: all 500ms; /* Safari */
+  transition: all 500ms;
 }
 
 .group-right .commerce-product-field .field-name-field-color .field-item {
@@ -2851,12 +2927,25 @@ form:not(.confirmation) div.addressfield-container-inline::after {
   font-size: inherit;
 }
 
+.group-right .field-name-field-composition-type-reference .taxonomy-term .field-name-field-svg img,
+.group-right .field-name-field-composition-type-reference .taxonomy-term .field-name-field-svg-hover img {
+  width: 6em;
+  max-width: none;
+}
+
+
+.group-right .commerce-product-field .field-name-field-composition-type-reference .field-items,
 .group-right .commerce-product-field .field-name-field-color .field-items {
   font-size: 0px !important;
 }
 
+.group-right .commerce-product-field.active .field-name-field-composition-type-reference .field-items,
 .group-right .commerce-product-field.active .field-name-field-color .field-items {
   font-size: 10px !important;
+}
+
+.group-right .commerce-product-field .field-name-field-composition-type-reference .field-name-field-title .field-item {
+  font-size: 160%;
 }
 
 
@@ -2869,22 +2958,19 @@ form:not(.confirmation) div.addressfield-container-inline::after {
 .group-right .commerce-product-field.active .field-label + .field-items {
   line-height: 1.2;
   margin-top: 0.5em;
-  display: block;
+  opacity: 1;
 }
 
-.group-right .commerce-product-field.commerce-product-field-field-nailiner-type,
-.group-right .commerce-product-field.commerce-product-field-field-composition-type-reference {
+.group-right .commerce-product-field.commerce-product-field-field-nailiner-type {
   padding: 0;
 }
 
-.group-right .commerce-product-field.commerce-product-field-field-nailiner-type .field-label,
-.group-right .commerce-product-field.commerce-product-field-field-composition-type-reference .field-label {
+.group-right .commerce-product-field.commerce-product-field-field-nailiner-type .field-label {
   display: none;
 }
 
 
-.group-right .commerce-product-field.commerce-product-field-field-nailiner-type .field-label + .field-items,
-.group-right .commerce-product-field.commerce-product-field-field-composition-type-reference .field-label + .field-items {
+.group-right .commerce-product-field.commerce-product-field-field-nailiner-type .field-label + .field-items {
   margin-top: 0;
   display: block;
 }
@@ -2927,7 +3013,7 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     max-width: 800px;
   }
   
-  #content #block-views-trending-colors-block .view-trending-colors {
+  #content #block-views-trending-colors-block .view-trending-colors .slick__slider {
     width: 858px;
     margin: auto;
   }
@@ -2947,7 +3033,7 @@ form:not(.confirmation) div.addressfield-container-inline::after {
   
   #logo img,
   #logobk img {
-    padding: 5px 0;
+    padding: 10px 0;
     height: 70px;
     box-sizing: border-box;
     width: auto;
@@ -3118,7 +3204,7 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     padding: 0px 5% 0 0;
   }
   
-  #content #block-views-trending-colors-block .view-trending-colors {
+  #content #block-views-trending-colors-block .view-trending-colors .slick__slider {
     width: 858px;
     margin: auto;
   }
@@ -3266,7 +3352,7 @@ form:not(.confirmation) div.addressfield-container-inline::after {
 
 
 @media screen and (max-device-width: 900px), screen and (max-width: 900px) {
-  #content #block-views-trending-colors-block .view-trending-colors {
+  #content #block-views-trending-colors-block .view-trending-colors .slick__slider {
     width: 630px;
     margin: auto;
   }
@@ -3341,7 +3427,7 @@ form:not(.confirmation) div.addressfield-container-inline::after {
   }
   
   .view-finishblock .views-field-name {
-    margin: 15px 0;
+    margin: 4px 0 15px 0;
     text-align: center;
     font-size: 20px;
     text-transform: none;
@@ -3601,6 +3687,10 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     max-width: 90%;
   }
   
+  .commerce-add-to-cart .form-submit {
+    width: 100%;
+  }
+  
 }
 
 @media screen and (max-device-width: 700px), screen and (max-width: 700px) {
@@ -3615,7 +3705,7 @@ form:not(.confirmation) div.addressfield-container-inline::after {
     margin-right: calc(25% - 100px);
   }
   
-  #content #block-views-trending-colors-block .view-trending-colors {
+  #content #block-views-trending-colors-block .view-trending-colors .slick__slider {
     width: 100%;
     margin: auto;
   }
@@ -3626,6 +3716,8 @@ form:not(.confirmation) div.addressfield-container-inline::after {
   .view-product-listing-nailiners .view-content {
     max-width: 90%;
   }
+  
+  
 }
 
 @media screen and (max-device-width: 480px), screen and (max-width: 480px) {
@@ -3899,16 +3991,29 @@ form:not(.confirmation) div.addressfield-container-inline::after {
   .group-right .commerce-product-field.commerce-product-field-field-nailiner-type .field-label,
   .group-right .commerce-product-field.commerce-product-field-field-composition-type-reference .field-label {
     display: block;
+    cursor: pointer;
   }
   
-  
-  .group-right .commerce-product-field.commerce-product-field-field-nailiner-type .field-label + .field-items,
-  .group-right .commerce-product-field.commerce-product-field-field-composition-type-reference .field-label + .field-items {
-    display: none;
+  .group-right .commerce-product-field.commerce-product-field-field-nailiner-type .field-items {
+     font-size: 0 !important;
   }
   
-  .group-right .commerce-product-field.commerce-product-field-field-nailiner-type.active .field-label + .field-items,
-  .group-right .commerce-product-field.commerce-product-field-field-composition-type-reference.active .field-label + .field-items {
+  .group-right .commerce-product-field.commerce-product-field-field-nailiner-type.active .field-items {
+     font-size: 10px !important;
+  }
+  
+  .group-right .field-name-field-nailiner-type .taxonomy-term .field-name-field-svg img, 
+  .group-right .field-name-field-nailiner-type .taxonomy-term .field-name-field-svg-hover img {
+    max-width: none;
+    width: 6em;
+  }
+  
+  .group-right .commerce-product-field .field-name-field-composition-type-reference .field-name-field-title .field-item,
+  .group-right .commerce-product-field .field-name-field-nailiner-type .field-name-field-title .field-item {
+    font-size: 120%;
+  }
+  
+  .group-right .commerce-product-field.commerce-product-field-field-nailiner-type.active .field-label + .field-items {
     display: block;
     margin-top: 0.5em;
   }

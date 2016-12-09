@@ -191,6 +191,46 @@ function inline_entity_form_entity_delete($entity, $type) {
 }
 
 /**
+ * Implements hook_entity_translation_delete().
+ *
+ * Deletes a translation of the referenced entity.
+ */
+function inline_entity_form_entity_translation_delete($entity_type, $entity, $langcode) {
+  list(,, $bundle) = entity_extract_ids($entity_type, $entity);
+  foreach (field_info_instances($entity_type, $bundle) as $field_name => $instance) {
+    if (strpos($instance['widget']['type'], 'inline_entity_form') === 0) {
+      $controller = inline_entity_form_get_controller($instance);
+
+      // The controller specified that referenced entities should be deleted.
+      if ($controller && $controller->getSetting('delete_references')) {
+        $items = field_get_items($entity_type, $entity, $field_name, $langcode);
+        if ($items) {
+          $field = field_info_field($field_name);
+          $ief_settings = inline_entity_form_settings($field, $instance);
+
+          $ids = array();
+          foreach ($items as $item) {
+            $ids[] = $item[$ief_settings['column']];
+          }
+
+          $ref_entity_type = $ief_settings['entity_type'];
+          $context = array(
+              'parent_entity_type' => $entity_type,
+              'parent_entity' => $entity,
+          );
+
+          foreach (entity_load($ref_entity_type, $ids) as $id => $ref_entity) {
+            $handler = entity_translation_get_handler($ref_entity_type, $ref_entity);
+            $handler->removeTranslation($langcode);
+            $controller->save($ref_entity, $context);
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
  * Attaches theme specific CSS files.
  *
  * @param $theme_css
@@ -397,6 +437,7 @@ function inline_entity_form_field_widget_form(&$form, &$form_state, $field, $ins
   $widget = $instance['widget'];
   $settings = inline_entity_form_settings($field, $instance);
   $entity_info = entity_get_info($settings['entity_type']);
+  $parent_entity_info = entity_get_info($element['#entity_type']);
   $controller = inline_entity_form_get_controller($instance);
   // The current entity type is not supported, execution can't continue.
   if (!$controller) {
@@ -405,12 +446,28 @@ function inline_entity_form_field_widget_form(&$form, &$form_state, $field, $ins
 
   // Get the entity type labels for the UI strings.
   $labels = $controller->labels();
+  
+  // Use current form language for translatable field.
+  if (!empty($form_state['entity_translation']['is_translation']) && $langcode != LANGUAGE_NONE) {
+    $langcode = $form_state['entity_translation']['form_langcode'];
+  }
 
   // Build a parents array for this element's values in the form.
-  $parents = array_merge($element['#field_parents'], array($element['#field_name'], $element['#language']));
-
-  // Get the langcode of the parent entity.
-  $parent_langcode = entity_language($element['#entity_type'], $element['#entity']);
+  $parents = array_merge($element['#field_parents'], array($element['#field_name'], $langcode));
+ 
+  // If the parent entity is new, the language is not yet set. Use the langcode
+  // from the parent form if existing in this case.
+  if (!isset($element['#entity']->{$parent_entity_info['entity keys']['id']}) && isset($form_state['complete form']['language'])) {
+    $parent_langcode = isset($form_state['complete form']['language']['#value']) ? $form_state['complete form']['language']['#value'] : $form_state['complete form']['language']['#default_value'];
+    $parent_is_translation = FALSE;
+  }
+  else {
+    // Get the langcode of the parent entity.
+    $parent_langcode = entity_language($element['#entity_type'], $element['#entity']);
+    $handler = entity_translation_get_handler($element['#entity_type'], $element['#entity']);
+    $translations = $handler->getTranslations();
+    $parent_is_translation = isset($translations->original) && $parent_langcode != $translations->original;
+  }
 
   // Assign a unique identifier to each IEF widget.
   // Since $parents can get quite long, sha1() ensures that every id has
@@ -508,6 +565,8 @@ function inline_entity_form_field_widget_form(&$form, &$form_state, $field, $ins
       '#parents' => array_merge($parents, array('form')),
       // Pass the current entity type.
       '#entity_type' => $settings['entity_type'],
+      '#parent_entity' => $element['#entity'],
+      '#parent_entity_type' => $element['#entity_type'],
       // Pass the langcode of the parent entity,
       '#parent_language' => $parent_langcode,
       // Identifies the IEF widget to which the form belongs.
@@ -576,6 +635,8 @@ function inline_entity_form_field_widget_form(&$form, &$form_state, $field, $ins
           // Store the entity on the form, later modified in the controller.
           '#entity' => $entity,
           '#entity_type' => $settings['entity_type'],
+          '#parent_entity' => $element['#entity'],
+          '#parent_entity_type' => $element['#entity_type'],
           // Pass the langcode of the parent entity,
           '#parent_language' => $parent_langcode,
           // Identifies the IEF widget to which the form belongs.
@@ -607,13 +668,19 @@ function inline_entity_form_field_widget_form(&$form, &$form_state, $field, $ins
           '#type' => 'container',
           '#attributes' => array('class' => array('ief-entity-operations')),
         );
+        
+        // If we are editing a translation and the inline entity is
+        // translated, provide some different options.
+        $handler = entity_translation_get_handler($controller->entityType(), $entity);
+        $translations = $handler->getTranslations();
+        $is_translation = $parent_is_translation && isset($translations->original) && $parent_langcode != $translations->original && isset($translations->data[$parent_langcode]);
 
         // Make sure entity_access is not checked for unsaved entities.
         list($entity_id) = entity_extract_ids($controller->entityType(), $entity);
         if (empty($entity_id) || entity_access('update', $controller->entityType(), $entity)) {
           $row['actions']['ief_entity_edit'] = array(
             '#type' => 'submit',
-            '#value' => t('Edit'),
+            '#value' => $is_translation ? t('Edit translation') : ($parent_is_translation ? t('Add translation') : t('Edit')),
             '#name' => 'ief-' . $ief_id . '-entity-edit-' . $key,
             '#limit_validation_errors' => array(),
             '#ajax' => array(
@@ -629,7 +696,7 @@ function inline_entity_form_field_widget_form(&$form, &$form_state, $field, $ins
         // The clone form follows the same semantics as the create form, so
         // it's opened below the table.
         if ($controller->getSetting('allow_clone') && !$cardinality_reached
-          && entity_access('create', $controller->entityType(), $entity)) {
+        && entity_access('create', $controller->entityType(), $entity) && !$parent_is_translation) {
           $row['actions']['ief_entity_clone'] = array(
             '#type' => 'submit',
             '#value' => t('Clone'),
@@ -650,19 +717,41 @@ function inline_entity_form_field_widget_form(&$form, &$form_state, $field, $ins
         // removeForm() method.
         if (empty($entity_id) || $controller->getSetting('allow_existing')
           || entity_access('delete', $controller->entityType(), $entity)) {
-          $row['actions']['ief_entity_remove'] = array(
-            '#type' => 'submit',
-            '#value' => t('Remove'),
-            '#name' => 'ief-' . $ief_id . '-entity-remove-' . $key,
-            '#limit_validation_errors' => array(),
-            '#ajax' => array(
-              'callback' => 'inline_entity_form_get_element',
-              'wrapper' => $wrapper,
-            ),
-            '#submit' => array('inline_entity_form_open_row_form'),
-            '#ief_row_delta' => $key,
-            '#ief_row_form' => 'remove',
-          );
+        
+          // Either provide a button to remove the translation or to remove
+          // the whole reference.
+          if ($is_translation) {
+            $row['actions']['ief_entity_remove_translation'] = array(
+              '#type' => 'submit',
+              '#value' => t('Remove translation'),
+              '#name' => 'ief-' . $ief_id . '-entity-remove-' . $key,
+              '#limit_validation_errors' => array(),
+              '#ajax' => array(
+                'callback' => 'inline_entity_form_get_element',
+                'wrapper' => $wrapper,
+              ),
+              '#submit' => array('inline_entity_form_open_row_form'),
+              '#ief_row_delta' => $key,
+              '#ief_row_form' => 'remove',
+              '#ief_row_is_translation' => $is_translation,
+            );
+          }
+          elseif (!$parent_is_translation) {
+            $row['actions']['ief_entity_remove'] = array(
+              '#type' => 'submit',
+              '#value' => t('Remove'),
+              '#name' => 'ief-' . $ief_id . '-entity-remove-' . $key,
+              '#limit_validation_errors' => array(),
+              '#ajax' => array(
+                'callback' => 'inline_entity_form_get_element',
+                'wrapper' => $wrapper,
+              ),
+              '#submit' => array('inline_entity_form_open_row_form'),
+              '#ief_row_delta' => $key,
+              '#ief_row_form' => 'remove',
+              '#ief_row_is_translation' => $is_translation,
+            );
+          }
         }
       }
     }
@@ -714,7 +803,7 @@ function inline_entity_form_field_widget_form(&$form, &$form_state, $field, $ins
       );
 
       // The user is allowed to create an entity of at least one bundle.
-      if (count($settings['create_bundles'])) {
+      if (count($settings['create_bundles']) && !$parent_is_translation) {
         // Let the user select the bundle, if multiple are available.
         if (count($settings['create_bundles']) > 1) {
           $bundles = array();
@@ -777,6 +866,8 @@ function inline_entity_form_field_widget_form(&$form, &$form_state, $field, $ins
         // Used by Field API and controller methods to find the relevant
         // values in $form_state.
         '#parents' => array_merge($parents, array('form')),
+        '#parent_entity' => $element['#entity'],
+        '#parent_entity_type' => $element['#entity_type'],
         // Pass the current entity type.
         '#entity_type' => $settings['entity_type'],
         // Pass the langcode of the parent entity,
@@ -903,6 +994,16 @@ function inline_entity_form_entity_form($controller, $entity_form, &$form_state)
     $entity_form['#title'] = t('Clone @type_singular', array('@type_singular' => $labels['singular']));
     $save_label = t('Clone @type_singular', array('@type_singular' => $labels['singular']));
   }
+  
+  // Register a child entity translation handler to properly deal with the
+  // entity form language.
+  list(, , $bundle) = entity_extract_ids($entity_form['#entity_type'], $entity_form['#entity']);
+  if (module_invoke('entity_translation', 'enabled', $entity_form['#entity_type'], $bundle) && $entity_form['#parent_entity']->translations->original != null) {
+    inline_entity_form_add_child_translation_handler($entity_form);
+    // Ensure this is executed even with cached forms. This is mainly useful
+    // when dealing with AJAX calls.
+    $entity_form['#process'][] = 'inline_entity_form_add_child_translation_handler';
+  }
 
   // Retrieve the form provided by the controller.
   $entity_form = $controller->entityForm($entity_form, $form_state);
@@ -974,6 +1075,22 @@ function inline_entity_form_entity_form($controller, $entity_form, &$form_state)
   drupal_alter('inline_entity_form_entity_form', $entity_form, $form_state);
 
   return $entity_form;
+}
+
+/**
+ * Registers a child entity translation handler for the given element.
+ */
+function inline_entity_form_add_child_translation_handler($element) {
+  $handler = entity_translation_get_handler($element['#parent_entity_type'], $element['#parent_entity']);
+
+  $handler->setFormLanguage($element['#parent_language']);
+  $source = $handler->getSourceLanguage();
+  if (!($source) && $element['#parent_entity']->translations->original != $element['#parent_language']) {
+    $handler->setSourceLanguage($element['#parent_entity']->translations->original);
+  }
+
+  $handler->addChild($element['#entity_type'], $element['#entity']);
+  return $element;
 }
 
 /**
@@ -1211,12 +1328,23 @@ function inline_entity_form_remove_form($controller, $remove_form, &$form_state)
   $delta = $remove_form['#ief_id'] . '-' . $remove_form['#ief_row_delta'];
 
   // Retrieve the form provided by the controller.
-  $remove_form = $controller->removeForm($remove_form, $form_state);
+  $row_is_translation = $form_state['triggering_element']['#ief_row_is_translation'];
+  if ($row_is_translation) {
+    $remove_form = $controller->removeTranslationForm($remove_form, $form_state);
+  }
+  else {
+    $remove_form = $controller->removeForm($remove_form, $form_state);
+  }
+  
   // Add the actions
   $remove_form['actions'] = array(
     '#type' => 'container',
     '#weight' => 100,
   );
+  // @todo: Compare entity orignal language with translation langauge. IF this
+  // is a translation, switch buttons and replace inline_entity_form_remove_confirm
+  // with variant that calls removeTranslationFormSubmit on the handler.
+  
   $remove_form['actions']['ief_remove_confirm'] = array(
     '#type' => 'submit',
     '#value' => t('Remove'),
@@ -1226,7 +1354,7 @@ function inline_entity_form_remove_form($controller, $remove_form, &$form_state)
       'callback' => 'inline_entity_form_get_element',
       'wrapper' => 'inline-entity-form-' . $remove_form['#ief_id'],
     ),
-    '#submit' => array('inline_entity_form_remove_confirm'),
+    '#submit' => array($row_is_translation ? 'inline_entity_form_remove_translation_confirm' : 'inline_entity_form_remove_confirm'),
     '#ief_row_delta' => $remove_form['#ief_row_delta'],
   );
   $remove_form['actions']['ief_remove_cancel'] = array(
@@ -1278,6 +1406,36 @@ function inline_entity_form_remove_confirm($form, &$form_state) {
   elseif ($status == IEF_ENTITY_UNLINK) {
     unset($form_state['inline_entity_form'][$ief_id]['entities'][$delta]);
   }
+}
+
+/**
+ * Remove translation form submit callback.
+ *
+ * The row is identified by #ief_row_delta stored on the triggering
+ * element.
+ * This isn't an #element_validate callback to avoid processing the
+ * remove form when the main form is submitted.
+ *
+ * @param $form
+ *   The complete parent form.
+ * @param $form_state
+ *   The form state of the parent form.
+ */
+function inline_entity_form_remove_translation_confirm($form, &$form_state) {
+  $form_state['rebuild'] = TRUE;
+  $element = inline_entity_form_get_element($form, $form_state);
+  $ief_id = $element['#ief_id'];
+  $delta = $form_state['triggering_element']['#ief_row_delta'];
+  $remove_form = $element['entities'][$delta]['form'];
+  $entity = $form_state['inline_entity_form'][$ief_id]['entities'][$delta]['entity'];
+
+  $settings = $form_state['inline_entity_form'][$ief_id]['settings'];
+  $handler = entity_translation_get_handler($settings['entity_type'], $entity);
+  $handler->removeTranslation($remove_form['#parent_language']);
+  $form_state['inline_entity_form'][$ief_id]['entities'][$delta]['needs_save'] = TRUE;
+
+  // Close form.
+  $form_state['inline_entity_form'][$ief_id]['entities'][$delta]['form'] = NULL;
 }
 
 /**
@@ -1550,6 +1708,19 @@ function inline_entity_form_field_attach_submit($parent_entity_type, $parent_ent
       $need_reset = FALSE;
       foreach ($values['entities'] as $item) {
         if ($item['needs_save']) {
+          // Ensure the proper entity form language is set before saving.
+          if (module_invoke('entity_translation', 'enabled', $entity_type, $item['entity']) && ($handler = module_invoke('entity_translation', 'get_handler', $entity_type, $item['entity']))) {
+            // Fetch the parent language - with entity_translation this will
+            // return the current form language and thus match perfectly.
+            $parent_entity_language = entity_language($parent_entity_type, $parent_entity);
+            $entity_form_language = $handler->getFormLanguage();
+            // If the field is language independent set the parent entity
+            // language as form language of the entity.
+            if ($langcode == LANGUAGE_NONE && $entity_form_language != $parent_entity_language) {
+              $handler->setFormLanguage($parent_entity_language);
+            }
+          }
+          
           $controller->save($item['entity'], $context);
           $need_reset = TRUE;
         }

@@ -65,10 +65,7 @@ class NodeInlineEntityFormController extends EntityInlineEntityFormController {
       '#weight' => 99,
     );
 
-    $langcode = entity_language('node', $node);
-    field_attach_form('node', $node, $entity_form, $form_state, $langcode);
-
-    return $entity_form;
+    return parent::entityForm($entity_form, $form_state);
   }
 
   /**

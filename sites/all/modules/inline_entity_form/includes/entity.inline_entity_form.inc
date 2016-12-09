@@ -272,7 +272,82 @@ class EntityInlineEntityFormController {
       field_attach_form($this->entityType, $entity, $entity_form, $form_state, $langcode);
     }
 
+    $this->entityFormTranslation($entity_form);
     return $entity_form;
+  }
+  
+  /**
+   * Handles entity translation for inline entities.
+   *
+   * @param $entity_form
+   *   The entity form.
+   */
+  protected function entityFormTranslation(&$entity_form) {
+    if (($handler = module_invoke('entity_translation', 'get_handler', $this->entityType, $entity_form['#entity'])) && !$handler->isNewEntity()) {
+      $form_langcode = $handler->getFormLanguage();
+      $langcode = !empty($entity_form['#parent_language']) ? $entity_form['#parent_language'] : $handler->getLanguage();
+      $translations = $handler->getTranslations();
+      $update_langcode = $form_langcode && ($form_langcode != $langcode);
+      $source = $handler->getSourceLanguage();
+      $new_translation = !isset($translations->data[$form_langcode]);
+  
+      if (!isset($translations->data[$form_langcode]) || count($translations->data) > 1) {
+        $handler->entityFormSharedElements($entity_form);
+      }
+  
+      // If we are creating a new translation we need to retrieve form elements
+      // populated with the source language values. In this case source values
+      // have already been populated, so we need to preserve possible changes.
+      // There might be situations, e.g. ajax calls, where the form language
+      // has not been properly initialized before calling field_attach_form().
+      // In this case we need to rebuild the form with the correct form language
+      // and replace the field elements with the correct ones.
+      // Borrowed some code from entity_translation_field_attach_form()
+      // that won't get run because $form_state['rebuild'] is TRUE for all IEF
+      // forms.
+      if ($update_langcode || ($source && !isset($translations->data[$form_langcode]) && isset($translations->data[$source]))) {
+        $entity_type = $entity_form['#entity_type'];
+        list($id, , $bundle) = entity_extract_ids($entity_type, $entity_form['#entity']);
+        foreach (field_info_instances($entity_type, $bundle) as $instance) {
+  
+          $field_name = $instance['field_name'];
+          $field = field_info_field($field_name);
+  
+          // If we are creating a new translation we have to change the form
+          // item language information from source to target language, this way
+          // the user can find the form items already populated with the source
+          // values while the field form element holds the correct language
+          // information.
+          if ($field['translatable']) {
+            $element = &$entity_form[$field_name];
+            $element['#entity_type'] = $entity_type;
+            $element['#entity'] = $entity_form['#entity'];
+            $element['#entity_id'] = $id;
+            $element['#field_name'] = $field_name;
+            $element['#source'] = $update_langcode ? $form_langcode : $source;
+            $element['#previous'] = NULL;
+            $element['#form_parents'] = $entity_form['#parents'];
+  
+            // If we are updating the form language we need to make sure that
+            // the wrong language is unset and the right one is stored in the
+            // field element (see entity_translation_prepare_element()).
+            if ($update_langcode) {
+              $element['#previous'] = $element['#language'];
+              $element['#language'] = $form_langcode;
+            }
+  
+            // Swap default values during form processing to avoid recursion.
+            // We try to act before any other callback so that the correct
+            // values are already in place for them.
+            if (!isset($element['#process'])) {
+              $element['#process'] = array();
+            }
+            array_unshift($element['#process'], 'entity_translation_prepare_element');
+          }
+        }
+      }
+      $entity_form['#element_validate'][] = 'entity_translation_entity_form_validate';
+    }
   }
 
   /**
@@ -308,7 +383,7 @@ class EntityInlineEntityFormController {
     $info = entity_get_info($this->entityType);
     list(, , $bundle) = entity_extract_ids($this->entityType, $entity_form['#entity']);
     $entity = $entity_form['#entity'];
-    $entity_values = drupal_array_get_nested_value($form_state['values'], $entity_form['#parents']);
+    $entity_values = &drupal_array_get_nested_value($form_state['values'], $entity_form['#parents']);
 
     // Copy top-level form values that are not for fields to entity properties,
     // without changing existing entity properties that are not being edited by
@@ -317,9 +392,63 @@ class EntityInlineEntityFormController {
     foreach ($values_excluding_fields as $key => $value) {
       $entity->$key = $value;
     }
+    
+    // Update the entity language using the parent entity submitted value.
+    if (!empty($info['entity keys']['language'])) {
+      $parent_info = entity_get_info($entity_form['#parent_entity_type']);
+      if (isset($parent_info['entity keys']['language']) && isset($form_state['values'][$parent_info['entity keys']['language']])) {
+        $entity->{$info['entity keys']['language']} = $form_state['values'][$parent_info['entity keys']['language']];
+        $handler = module_invoke('entity_translation', 'get_handler', $this->entityType, $entity);
+        $lang = $handler->getFormLanguage();
+        if ($lang == LANGUAGE_NONE) {
+          if ($entity_form['#parent_language'] != LANGUAGE_NONE) {
+            $handler->setFormLanguage($entity_form['#parent_language']);
+          }
+          else {
+            $handler->setFormLanguage($form_state['values'][$parent_info['entity keys']['language']]);
+          }
+        }
+      }
+    }
 
     if ($info['fieldable']) {
+      // Retrieve the current entity form language.
+      $langcode = entity_language($this->entityType, $entity);
+      
+      // Handle a possible language change: new language values are inserted,
+      // previous ones are deleted.
+      foreach (field_info_instances($this->entityType, $bundle) as $instance) {
+        $field_name = $instance['field_name'];
+        $field = field_info_field($field_name);
+        $previous_langcode = $entity_form[$field_name]['#language'];
+        if ($field['translatable'] && $previous_langcode != $langcode) {
+          $entity_values[$field_name][$langcode] = $entity_values[$field_name][$previous_langcode];
+          $entity_values[$field_name][$previous_langcode] = array();
+        }
+      }
+      
       field_attach_submit($this->entityType, $entity, $entity_form, $form_state);
+      
+      // Handle translation submission.
+      $this->entityTranslationFormSubmit($entity_form, $entity);
+      
+    }
+  }
+  
+  /**
+   * Creates an entity translation if needed.
+   */
+  protected function entityTranslationFormSubmit($entity_form, $entity) {
+    if (($handler = module_invoke('entity_translation', 'get_handler', $this->entityType, $entity)) && ($source = $handler->getSourceLanguage())) {
+      list($id, , ) = entity_extract_ids($this->entityType, $entity);
+      $translation = array(
+          'entity_type' => $this->entityType,
+          'entity_id' => $id,
+          'language' => $handler->getFormLanguage(),
+          'source' => $source,
+          'status' => 1,
+      );
+      $handler->setTranslation($translation);
     }
   }
 
@@ -362,7 +491,7 @@ class EntityInlineEntityFormController {
    * @param $form_state
    *   The form state of the parent form.
    *
-   * @return
+   * @return int
    *   IEF_ENTITY_UNLINK or IEF_ENTITY_UNLINK_DELETE.
    */
   public function removeFormSubmit($remove_form, &$form_state) {
@@ -380,6 +509,31 @@ class EntityInlineEntityFormController {
     }
 
     return IEF_ENTITY_UNLINK_DELETE;
+  }
+  
+  /**
+   * Returns the remove translation form to be shown through the IEF widget.
+   *
+   * @param $remove_form
+   *   The remove form.
+   * @param $form_state
+   *   The form state of the parent form.
+   */
+  public function removeTranslationForm($remove_form, &$form_state) {
+    $entity = $remove_form['#entity'];
+    list($entity_id) = entity_extract_ids($this->entityType, $entity);
+    $entity_label = entity_label($this->entityType, $entity);
+    $langcode = entity_language($this->entityType, $entity);
+    $languages = language_list();
+  
+    $remove_form['message'] = array(
+        '#markup' => '<div>' . t('Are you sure you want to remove the @language_label translation for %label?', array(
+            '%label' => $entity_label,
+            '@language_label' => isset($languages[$langcode]) ? $languages[$langcode]->name : $langcode,
+        )) . '</div>',
+    );
+  
+    return $remove_form;
   }
 
   /**
